@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HabitTracker-Compose</string>
+    <string name="error_message">Error while loading</string>
+    <string name="try_again">Try again</string>
+    <string name="save">Save</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+</resources>
