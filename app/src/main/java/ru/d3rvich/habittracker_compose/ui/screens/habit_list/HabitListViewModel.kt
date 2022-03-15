@@ -2,6 +2,7 @@ package ru.d3rvich.habittracker_compose.ui.screens.habit_list
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
@@ -31,8 +32,9 @@ class HabitListViewModel @Inject constructor() :
         viewModelScope.launch {
             setState(HabitListViewState.Loading)
             try {
-                val habits = HabitStore.getHabits()
-                setState(HabitListViewState.Content(habits = habits))
+                HabitStore.getHabits().collect { habits ->
+                    setState(HabitListViewState.Content(habits = habits))
+                }
             } catch (e: Exception) {
                 setState(HabitListViewState.Error(0))
             }
