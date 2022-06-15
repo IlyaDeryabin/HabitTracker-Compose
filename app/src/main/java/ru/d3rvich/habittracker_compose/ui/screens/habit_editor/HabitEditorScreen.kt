@@ -19,7 +19,6 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditor
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorEvent
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorViewState
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditorViewEditor
-import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditorViewError
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditorViewLoading
 
 @ExperimentalMaterialApi
@@ -48,11 +47,6 @@ fun HabitEditorScreen(
                     HabitEditorViewEditor(habit = state.habit,
                         isUploading = state.isUploading) { baseHabit ->
                         viewModel.obtainEvent(HabitEditorEvent.OnSaveButtonClicked(baseHabit))
-                    }
-                }
-                is HabitEditorViewState.Error -> {
-                    HabitEditorViewError(errorTextResId = state.messageResId) {
-                        viewModel.obtainEvent(HabitEditorEvent.OnReloadButtonClicked)
                     }
                 }
                 HabitEditorViewState.Loading -> {

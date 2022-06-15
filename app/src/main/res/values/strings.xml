@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">HabitTracker-Compose</string>
-    <string name="error_message">Error while loading</string>
-    <string name="try_again">Try again</string>
     <string name="save_habit">Save habit</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
@@ -15,4 +13,10 @@
     <string name="amount">Amount</string>
     <string name="frequency">Frequency</string>
     <string name="fill_all_fields">Please, fill all fields.</string>
+    <string name="good">Good</string>
+    <string name="bad">Bad</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete_habit">Remove habit?</string>
+    <string name="remove_message">This action can\'t be cancel.</string>
 </resources>

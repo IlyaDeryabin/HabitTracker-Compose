@@ -4,6 +4,7 @@ import ru.d3rvich.habittracker_compose.ui.base.UiEvent
 
 sealed class HabitListEvent : UiEvent {
     object OnAddHabitClicked : HabitListEvent()
-    object OnReloadButtonClicked : HabitListEvent()
     class OnHabitClicked(val id: String) : HabitListEvent()
+    class OnHabitLongClicked(val id: String): HabitListEvent()
+    class OnDeleteDialogResult(val isConfirmed: Boolean): HabitListEvent()
 }

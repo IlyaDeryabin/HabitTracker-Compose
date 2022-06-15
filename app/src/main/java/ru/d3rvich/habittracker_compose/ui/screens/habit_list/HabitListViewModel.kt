@@ -2,7 +2,9 @@ package ru.d3rvich.habittracker_compose.ui.screens.habit_list
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import ru.d3rvich.habittracker_compose.data.repositories.HabitRepository
 import ru.d3rvich.habittracker_compose.ui.base.BaseViewModel
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListAction
@@ -13,13 +15,38 @@ import javax.inject.Inject
 @HiltViewModel
 class HabitListViewModel @Inject constructor(private val habitRepository: HabitRepository) :
     BaseViewModel<HabitListEvent, HabitListViewState, HabitListAction>() {
-    override fun createInitialState(): HabitListViewState = HabitListViewState.Loading
+
+    override fun createInitialState(): HabitListViewState =
+        HabitListViewState(habitList = null, isLoading = true)
+
+    private val habitsFlow = habitRepository.getHabits()
+        .stateIn(scope = CoroutineScope(SupervisorJob(viewModelScope.coroutineContext.job) + Dispatchers.Default),
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = null)
+
+    private var habitToRemoveId: String? = null
 
     override fun obtainEvent(event: HabitListEvent) {
-        when (val state = currentState) {
-            is HabitListViewState.Content -> reduce(event, state)
-            is HabitListViewState.Error -> reduce(event, state)
-            is HabitListViewState.Loading -> reduce(event, state)
+        when (event) {
+            HabitListEvent.OnAddHabitClicked -> {
+                sendAction { HabitListAction.NavigateToHabitCreator }
+            }
+            is HabitListEvent.OnHabitClicked -> {
+                sendAction { HabitListAction.NavigateToHabitEditor(habitId = event.id) }
+            }
+            is HabitListEvent.OnHabitLongClicked -> {
+                habitToRemoveId = event.id
+                setState(currentState.copy(showDialog = true))
+            }
+            is HabitListEvent.OnDeleteDialogResult -> {
+                if (event.isConfirmed) {
+                    habitToRemoveId?.let {
+                        removeHabit(it)
+                        habitToRemoveId = null
+                    }
+                }
+                setState(currentState.copy(showDialog = false))
+            }
         }
     }
 
@@ -29,39 +56,18 @@ class HabitListViewModel @Inject constructor(private val habitRepository: HabitR
 
     private fun loadData() {
         viewModelScope.launch {
-            setState(HabitListViewState.Loading)
-            try {
-                habitRepository.getHabits().collect { habits ->
-                    setState(HabitListViewState.Content(habits = habits))
-                }
-            } catch (e: Exception) {
-                setState(HabitListViewState.Error(0))
+            setState(currentState.copy(isLoading = true))
+            habitsFlow.collect { habits ->
+                setState(currentState.copy(habitList = habits, isLoading = false))
             }
         }
     }
 
-    private fun reduce(event: HabitListEvent, viewState: HabitListViewState.Loading) {
-        unexpectedEventError(event, viewState)
-    }
-
-    private fun reduce(event: HabitListEvent, viewState: HabitListViewState.Content) {
-        when (event) {
-            HabitListEvent.OnAddHabitClicked -> {
-                sendAction { HabitListAction.NavigateToHabitCreator }
+    private fun removeHabit(habitId: String) {
+        viewModelScope.launch {
+            habitsFlow.value?.find { it.id == habitId }?.let { habitToRemove ->
+                habitRepository.deleteHabit(habitToRemove)
             }
-            is HabitListEvent.OnHabitClicked -> {
-                sendAction { HabitListAction.NavigateToHabitEditor(habitId = event.id) }
-            }
-            else -> unexpectedEventError(event, viewState)
-        }
-    }
-
-    private fun reduce(event: HabitListEvent, viewState: HabitListViewState.Error) {
-        when (event) {
-            HabitListEvent.OnReloadButtonClicked -> {
-                loadData()
-            }
-            else -> unexpectedEventError(event, viewState)
         }
     }
 }

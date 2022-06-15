@@ -36,7 +36,6 @@ class HabitEditorViewModel @Inject constructor(
         when (val state = currentState) {
             is HabitEditorViewState.Creator -> reduce(event, state)
             is HabitEditorViewState.Editor -> reduce(event, state)
-            is HabitEditorViewState.Error -> reduce(event, state)
             is HabitEditorViewState.Loading -> reduce(event, state)
         }
     }
@@ -71,7 +70,6 @@ class HabitEditorViewModel @Inject constructor(
                     }
                 }
             }
-            else -> unexpectedEventError(event, state)
         }
     }
 
@@ -94,19 +92,6 @@ class HabitEditorViewModel @Inject constructor(
                     }
                 }
             }
-            else -> unexpectedEventError(event, state)
-        }
-    }
-
-    private fun reduce(event: HabitEditorEvent, state: HabitEditorViewState.Error) {
-        when (event) {
-            HabitEditorEvent.OnBackPressed -> {
-                sendAction { HabitEditorAction.PopBackStack }
-            }
-            HabitEditorEvent.OnReloadButtonClicked -> {
-                loadHabitBy(habitId!!)
-            }
-            else -> unexpectedEventError(event, state)
         }
     }
 

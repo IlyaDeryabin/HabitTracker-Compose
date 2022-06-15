@@ -1,5 +1,6 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_list.views
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -7,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -14,20 +16,26 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import ru.d3rvich.habittracker_compose.R
 import ru.d3rvich.habittracker_compose.entity.HabitEntity
 import ru.d3rvich.habittracker_compose.entity.HabitType
 
 @ExperimentalPagerApi
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
 fun HabitListViewContent(
     modifier: Modifier = Modifier,
-    habits: List<HabitEntity>,
+    isLoading: Boolean,
+    habits: List<HabitEntity>?,
     onHabitClicked: (String) -> Unit,
+    onHabitLongClicked: (String) -> Unit,
 ) {
-    val tabs = listOf("Good", "Bad")
+    val tabs = listOf(R.string.good, R.string.bad).map { stringResource(id = it) }
     val pagerState = rememberPagerState()
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
+        if (isLoading) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        }
         TabRow(selectedTabIndex = pagerState.currentPage, indicator = { tabPositions ->
             TabRowDefaults.Indicator(Modifier.pagerTabIndicatorOffset(pagerState, tabPositions))
         }) {
@@ -48,26 +56,33 @@ fun HabitListViewContent(
             count = tabs.size,
             state = pagerState
         ) { page ->
-            when (page) {
-                0 -> {
-                    val goodHabits = habits.filter { it.type == HabitType.Good }
-                    HabitList(habits = goodHabits, onHabitClicked = onHabitClicked)
-                }
-                else -> {
-                    val badHabits = habits.filter { it.type == HabitType.Bad }
-                    HabitList(habits = badHabits, onHabitClicked = onHabitClicked)
+            habits?.let {
+                when (page) {
+                    0 -> {
+                        val goodHabits = habits.filter { it.type == HabitType.Good }
+                        HabitList(habits = goodHabits,
+                            onHabitClicked = onHabitClicked,
+                            onHabitLongClicked = onHabitLongClicked)
+                    }
+                    else -> {
+                        val badHabits = habits.filter { it.type == HabitType.Bad }
+                        HabitList(habits = badHabits,
+                            onHabitClicked = onHabitClicked,
+                            onHabitLongClicked = onHabitLongClicked)
+                    }
                 }
             }
         }
     }
 }
 
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
 private fun HabitList(
     modifier: Modifier = Modifier,
     habits: List<HabitEntity>,
     onHabitClicked: (String) -> Unit,
+    onHabitLongClicked: (String) -> Unit,
 ) {
     if (habits.isEmpty()) {
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -80,7 +95,9 @@ private fun HabitList(
             contentPadding = PaddingValues(horizontal = 4.dp)
         ) {
             items(habits) {
-                HabitListItem(habit = it, onHabitClicked = onHabitClicked)
+                HabitListItem(habit = it,
+                    onHabitClicked = onHabitClicked,
+                    onHabitLongClicked = onHabitLongClicked)
             }
             item {
                 Spacer(modifier = Modifier.height(80.dp))
@@ -90,10 +107,10 @@ private fun HabitList(
 }
 
 @ExperimentalPagerApi
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
-fun HabitListViewContentPreview() {
+private fun HabitListViewContentPreview() {
     val habits: MutableList<HabitEntity> = mutableListOf()
     for (i in 0 until 20) {
         val habit = HabitEntity(
@@ -110,5 +127,5 @@ fun HabitListViewContentPreview() {
         )
         habits.add(habit)
     }
-    HabitListViewContent(habits = habits) {}
+    HabitListViewContent(habits = habits, onHabitClicked = {}, isLoading = false) {}
 }

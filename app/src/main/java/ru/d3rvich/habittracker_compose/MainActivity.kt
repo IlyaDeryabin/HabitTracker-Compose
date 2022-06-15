@@ -3,6 +3,7 @@ package ru.d3rvich.habittracker_compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.rememberCoroutineScope
@@ -23,6 +24,7 @@ import ru.d3rvich.habittracker_compose.ui.theme.HabitTrackerComposeTheme
 
 @ExperimentalPagerApi
 @ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

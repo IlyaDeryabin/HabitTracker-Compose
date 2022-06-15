@@ -1,5 +1,6 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,27 +11,24 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.launch
+import ru.d3rvich.habittracker_compose.R
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
-import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListViewState
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.views.HabitListViewContent
-import ru.d3rvich.habittracker_compose.ui.screens.habit_list.views.HabitListViewError
-import ru.d3rvich.habittracker_compose.ui.screens.habit_list.views.HabitListViewLoading
 
 @ExperimentalPagerApi
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
 fun HabitListScreen(
     navController: NavController,
     viewModel: HabitListViewModel,
     openDrawer: () -> Unit,
 ) {
-    var isAddHabitButtonVisible by remember {
-        mutableStateOf(false)
-    }
+    val viewState = viewModel.uiState.collectAsState().value
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -43,27 +41,43 @@ fun HabitListScreen(
             })
         },
         floatingActionButton = {
-            if (isAddHabitButtonVisible) {
-                FloatingActionButton(onClick = { viewModel.obtainEvent(HabitListEvent.OnAddHabitClicked) }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "Add habit")
-                }
+            FloatingActionButton(onClick = { viewModel.obtainEvent(HabitListEvent.OnAddHabitClicked) }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add habit")
             }
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            when (val viewState = viewModel.uiState.collectAsState().value) {
-                is HabitListViewState.Loading -> HabitListViewLoading()
-                is HabitListViewState.Content -> {
-                    isAddHabitButtonVisible = true
-                    HabitListViewContent(habits = viewState.habits) { habitId ->
-                        viewModel.obtainEvent(HabitListEvent.OnHabitClicked(habitId))
-                    }
-                }
-                is HabitListViewState.Error -> HabitListViewError {
-                    viewModel.obtainEvent(HabitListEvent.OnReloadButtonClicked)
-                }
-            }
+            HabitListViewContent(habits = viewState.habitList,
+                isLoading = viewState.isLoading,
+                onHabitClicked = { habitId ->
+                    viewModel.obtainEvent(HabitListEvent.OnHabitClicked(habitId))
+                },
+                onHabitLongClicked = { habitId ->
+                    viewModel.obtainEvent(HabitListEvent.OnHabitLongClicked(habitId))
+                })
         }
+    }
+    if (viewState.showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(false))
+            },
+            title = {
+                Text(text = stringResource(id = R.string.delete_habit))
+            },
+            text = {
+                Text(text = stringResource(id = R.string.remove_message))
+            },
+            confirmButton = {
+                TextButton(onClick = { viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(true)) }) {
+                    Text(stringResource(id = R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(false)) }) {
+                    Text(stringResource(id = R.string.cancel))
+                }
+            })
     }
 
     LaunchedEffect(Unit) {

@@ -1,7 +1,9 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_list.views
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,20 +19,26 @@ import androidx.compose.ui.unit.dp
 import ru.d3rvich.habittracker_compose.entity.HabitEntity
 import ru.d3rvich.habittracker_compose.entity.HabitType
 
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
 fun HabitListItem(
     modifier: Modifier = Modifier,
     habit: HabitEntity,
     onHabitClicked: (String) -> Unit,
+    onHabitLongClicked: (String) -> Unit,
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .height(92.dp),
-        shape = RoundedCornerShape(24.dp),
-        onClick = { onHabitClicked(habit.id) }) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        shape = RoundedCornerShape(24.dp)) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .combinedClickable(onLongClick = {
+                onHabitLongClicked(habit.id)
+            }) {
+                onHabitClicked(habit.id)
+            }) {
             Box(modifier = Modifier
                 .fillMaxHeight()
                 .width(32.dp)
@@ -84,7 +92,7 @@ fun HabitListItem(
     }
 }
 
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
 fun HabitListItemPreview() {
@@ -100,10 +108,10 @@ fun HabitListItemPreview() {
         date = 0L,
         doneDates = emptyList()
     )
-    HabitListItem(habit = habitEntity) {}
+    HabitListItem(habit = habitEntity, onHabitLongClicked = {}, onHabitClicked = {})
 }
 
-@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
 fun HabitListItemPreviewWithLongTitle() {
@@ -119,5 +127,5 @@ fun HabitListItemPreviewWithLongTitle() {
         date = 0L,
         doneDates = emptyList()
     )
-    HabitListItem(habit = habitEntity) {}
+    HabitListItem(habit = habitEntity, onHabitLongClicked = {}, onHabitClicked = {})
 }
