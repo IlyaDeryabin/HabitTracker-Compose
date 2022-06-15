@@ -54,6 +54,7 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
 
+    // Navigation
     def nav_version = "2.4.2"
     implementation "androidx.navigation:navigation-compose:$nav_version"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
@@ -62,6 +63,12 @@ dependencies {
     def accompanist_version = "0.24.10-beta"
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+
+    // Room
+    def room_version = "2.4.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 
     /* KTX */
     implementation 'androidx.core:core-ktx:1.8.0'

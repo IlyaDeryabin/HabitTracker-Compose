@@ -1,11 +1,12 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_editor
 
-import androidx.lifecycle.*
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.d3rvich.habittracker_compose.R
-import ru.d3rvich.habittracker_compose.data.HabitStore
+import ru.d3rvich.habittracker_compose.data.repositories.HabitRepository
 import ru.d3rvich.habittracker_compose.entity.BaseHabitEntity
 import ru.d3rvich.habittracker_compose.entity.toHabitEntity
 import ru.d3rvich.habittracker_compose.ui.base.BaseViewModel
@@ -15,8 +16,10 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditor
 import javax.inject.Inject
 
 @HiltViewModel
-class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandle) :
-    BaseViewModel<HabitEditorEvent, HabitEditorViewState, HabitEditorAction>() {
+class HabitEditorViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val habitRepository: HabitRepository,
+) : BaseViewModel<HabitEditorEvent, HabitEditorViewState, HabitEditorAction>() {
 
     private var habitId: String? = null
 
@@ -40,7 +43,7 @@ class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandl
 
     private fun loadHabitBy(habitId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val habit = HabitStore.getHabitBy(habitId)
+            val habit = habitRepository.getHabitBy(habitId)
             setState(HabitEditorViewState.Editor(habit, false))
         }
     }
@@ -60,7 +63,7 @@ class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandl
                 viewModelScope.launch {
                     setState(state.copy(isUploading = true))
                     if (checkFields(event.habit)) {
-                        HabitStore.addHabit(event.habit.toHabitEntity())
+                        habitRepository.createHabit(event.habit.toHabitEntity())
                         sendAction { HabitEditorAction.PopBackStack }
                     } else {
                         setState(state.copy(isUploading = false))
@@ -81,7 +84,7 @@ class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandl
                 viewModelScope.launch(Dispatchers.IO) {
                     setState(state.copy(isUploading = true))
                     if (checkFields(event.habit)) {
-                        HabitStore.editHabit(event.habit.toHabitEntity(id = state.habit.id,
+                        habitRepository.updateHabit(event.habit.toHabitEntity(id = state.habit.id,
                             date = state.habit.date,
                             doneDates = state.habit.doneDates))
                         sendAction { HabitEditorAction.PopBackStack }

@@ -2,17 +2,16 @@ package ru.d3rvich.habittracker_compose.ui.screens.habit_list
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import ru.d3rvich.habittracker_compose.data.repositories.HabitRepository
+import ru.d3rvich.habittracker_compose.ui.base.BaseViewModel
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListViewState
-import ru.d3rvich.habittracker_compose.data.HabitStore
-import ru.d3rvich.habittracker_compose.ui.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HabitListViewModel @Inject constructor() :
+class HabitListViewModel @Inject constructor(private val habitRepository: HabitRepository) :
     BaseViewModel<HabitListEvent, HabitListViewState, HabitListAction>() {
     override fun createInitialState(): HabitListViewState = HabitListViewState.Loading
 
@@ -32,7 +31,7 @@ class HabitListViewModel @Inject constructor() :
         viewModelScope.launch {
             setState(HabitListViewState.Loading)
             try {
-                HabitStore.getHabits().collect { habits ->
+                habitRepository.getHabits().collect { habits ->
                     setState(HabitListViewState.Content(habits = habits))
                 }
             } catch (e: Exception) {

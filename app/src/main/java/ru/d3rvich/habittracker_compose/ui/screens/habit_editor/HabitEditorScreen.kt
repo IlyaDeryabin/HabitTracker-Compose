@@ -14,7 +14,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorEvent
