@@ -1,7 +1,9 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_list
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -10,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
@@ -25,7 +26,7 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_list.views.HabitListView
 fun HabitListScreen(
     navController: NavController,
     viewModel: HabitListViewModel,
-    openDrawer: () -> Unit
+    openDrawer: () -> Unit,
 ) {
     var isAddHabitButtonVisible by remember {
         mutableStateOf(false)
@@ -48,17 +49,19 @@ fun HabitListScreen(
                 }
             }
         }
-    ) {
-        when (val viewState = viewModel.uiState.collectAsState().value) {
-            is HabitListViewState.Loading -> HabitListViewLoading()
-            is HabitListViewState.Content -> {
-                isAddHabitButtonVisible = true
-                HabitListViewContent(habits = viewState.habits) { habitId ->
-                    viewModel.obtainEvent(HabitListEvent.OnHabitClicked(habitId))
+    ) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            when (val viewState = viewModel.uiState.collectAsState().value) {
+                is HabitListViewState.Loading -> HabitListViewLoading()
+                is HabitListViewState.Content -> {
+                    isAddHabitButtonVisible = true
+                    HabitListViewContent(habits = viewState.habits) { habitId ->
+                        viewModel.obtainEvent(HabitListEvent.OnHabitClicked(habitId))
+                    }
                 }
-            }
-            is HabitListViewState.Error -> HabitListViewError {
-                viewModel.obtainEvent(HabitListEvent.OnReloadButtonClicked)
+                is HabitListViewState.Error -> HabitListViewError {
+                    viewModel.obtainEvent(HabitListEvent.OnReloadButtonClicked)
+                }
             }
         }
     }
@@ -78,4 +81,3 @@ fun HabitListScreen(
         }
     }
 }
-

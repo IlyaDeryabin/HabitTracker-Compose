@@ -4,34 +4,38 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.d3rvich.habittracker_compose.entity.HabitEntity
+import ru.d3rvich.habittracker_compose.entity.HabitType
+import java.util.*
 
 object HabitStore {
     private val habits: MutableList<HabitEntity> = mutableListOf()
     private val habitsFlow = MutableStateFlow<List<HabitEntity>>(emptyList())
 
-//    init {
-//        runBlocking {
-//            launch {
-//                for (i in 0 until 10) {
-//                    val habit = HabitEntity(
-//                        id = UUID.randomUUID().toString(),
-//                        title = "Title $i",
-//                        description = "Description",
-//                        type = if (i % 2 == 0) HabitType.Good else HabitType.Bad,
-//                        count = 0,
-//                        frequency = 0,
-//                        priority = 0,
-//                        color = (0xFF00FF00).toInt(),
-//                        date = 0L,
-//                        doneDates = emptyList()
-//                    )
-//                    habits.add(habit)
-//                }
-//                habitsFlow.emit(habits.toList())
-//            }
-//        }
-//    }
+    init {
+        runBlocking {
+            launch {
+                for (i in 0 until 10) {
+                    val habit = HabitEntity(
+                        id = UUID.randomUUID().toString(),
+                        title = "Title $i",
+                        description = "Description",
+                        type = if (i % 2 == 0) HabitType.Good else HabitType.Bad,
+                        count = 0,
+                        frequency = 0,
+                        priority = 0,
+                        color = (0xFF00FF00).toInt(),
+                        date = 0L,
+                        doneDates = emptyList()
+                    )
+                    habits.add(habit)
+                }
+                habitsFlow.emit(habits.toList())
+            }
+        }
+    }
 
     fun getHabits(): Flow<List<HabitEntity>> {
         return habitsFlow.asSharedFlow()

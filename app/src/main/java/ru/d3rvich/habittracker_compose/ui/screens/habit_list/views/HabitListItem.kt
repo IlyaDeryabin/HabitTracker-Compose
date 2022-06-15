@@ -1,10 +1,13 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_list.views
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -19,24 +22,25 @@ import ru.d3rvich.habittracker_compose.entity.HabitType
 fun HabitListItem(
     modifier: Modifier = Modifier,
     habit: HabitEntity,
-    onHabitClicked: (String) -> Unit
+    onHabitClicked: (String) -> Unit,
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(92.dp),
         shape = RoundedCornerShape(24.dp),
         onClick = { onHabitClicked(habit.id) }) {
         Row(modifier = Modifier.fillMaxWidth()) {
-            Divider(
-                modifier = Modifier
-                    .width(32.dp)
-                    .height(80.dp),
-                color = Color(habit.color)
-            )
+            Box(modifier = Modifier
+                .fillMaxHeight()
+                .width(32.dp)
+                .background(Brush.horizontalGradient(0.0f to Color(habit.color),
+                    1f to Color.Transparent)))
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
-                    .padding(start = 8.dp, end = 12.dp)
+                    .padding(start = 8.dp, end = 8.dp)
             ) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
@@ -55,28 +59,25 @@ fun HabitListItem(
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.h6
                     )
-                    val textColor = when (habit.type) {
+                    val color = when (habit.type) {
                         HabitType.Good -> Color.Green
                         HabitType.Bad -> Color.Red
                     }
-                    Text(
-                        text = habit.type.name,
-                        modifier = Modifier.alignByBaseline(),
-                        color = textColor
-                    )
+                    Canvas(modifier = Modifier.size(20.dp)) {
+                        drawCircle(Brush.radialGradient(listOf(color, Color.Transparent)))
+                    }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         text = habit.description,
-                        maxLines = 1,
+                        maxLines = 2,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier
                             .weight(1f, true)
                             .padding(end = 8.dp),
                         textAlign = TextAlign.Start
                     )
-                    Text(text = "${habit.frequency} times")
                 }
             }
         }
@@ -95,7 +96,7 @@ fun HabitListItemPreview() {
         count = 0,
         frequency = 0,
         priority = 0,
-        color = 0xFFFF0000,
+        color = (0xFFFF0000).toInt(),
         date = 0L,
         doneDates = emptyList()
     )
@@ -114,7 +115,7 @@ fun HabitListItemPreviewWithLongTitle() {
         count = 0,
         frequency = 0,
         priority = 0,
-        color = 0xFFFF0000,
+        color = (0xFFFF0000).toInt(),
         date = 0L,
         doneDates = emptyList()
     )

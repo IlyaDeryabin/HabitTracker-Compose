@@ -23,7 +23,7 @@ import ru.d3rvich.habittracker_compose.entity.HabitType
 fun HabitListViewContent(
     modifier: Modifier = Modifier,
     habits: List<HabitEntity>,
-    onHabitClicked: (String) -> Unit
+    onHabitClicked: (String) -> Unit,
 ) {
     val tabs = listOf("Good", "Bad")
     val pagerState = rememberPagerState()
@@ -67,7 +67,7 @@ fun HabitListViewContent(
 private fun HabitList(
     modifier: Modifier = Modifier,
     habits: List<HabitEntity>,
-    onHabitClicked: (String) -> Unit
+    onHabitClicked: (String) -> Unit,
 ) {
     if (habits.isEmpty()) {
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -104,7 +104,7 @@ fun HabitListViewContentPreview() {
             count = 0,
             frequency = 0,
             priority = 0,
-            color = 0xFFFF0000,
+            color = (0xFFFF0000).toInt(),
             date = 0L,
             doneDates = emptyList()
         )

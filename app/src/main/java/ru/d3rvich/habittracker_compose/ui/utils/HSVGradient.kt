@@ -73,6 +73,8 @@ class HSVGradient : Drawable() {
     override fun setColorFilter(p0: ColorFilter?) {
     }
 
+    @Deprecated("Deprecated in Java",
+        ReplaceWith("PixelFormat.OPAQUE", "android.graphics.PixelFormat"))
     override fun getOpacity(): Int {
         return PixelFormat.OPAQUE
     }

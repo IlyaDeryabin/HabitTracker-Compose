@@ -1,7 +1,10 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_editor
 
+import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -9,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -19,10 +23,11 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditor
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditorViewError
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditorViewLoading
 
+@ExperimentalMaterialApi
 @Composable
 fun HabitEditorScreen(
     navController: NavController,
-    viewModel: HabitEditorViewModel
+    viewModel: HabitEditorViewModel,
 ) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
@@ -32,35 +37,44 @@ fun HabitEditorScreen(
                 Icon(Icons.Default.ArrowBack, contentDescription = "Pop back")
             }
         })
-    }) {
-        when (val state = viewModel.uiState.collectAsState().value) {
-            HabitEditorViewState.Creator -> {
-                HabitEditorViewEditor { habit ->
-                    viewModel.obtainEvent(HabitEditorEvent.OnSaveButtonClicked(habit))
+    }) { paddingValues ->
+        Box(modifier = Modifier.padding(paddingValues)) {
+            when (val state = viewModel.uiState.collectAsState().value) {
+                is HabitEditorViewState.Creator -> {
+                    HabitEditorViewEditor(isUploading = state.isUploading) { baseHabit ->
+                        viewModel.obtainEvent(HabitEditorEvent.OnSaveButtonClicked(baseHabit))
+                    }
                 }
-            }
-            is HabitEditorViewState.Editor -> {
-                HabitEditorViewEditor(habit = state.habit) { habit ->
-                    viewModel.obtainEvent(HabitEditorEvent.OnSaveButtonClicked(habit))
+                is HabitEditorViewState.Editor -> {
+                    HabitEditorViewEditor(habit = state.habit,
+                        isUploading = state.isUploading) { baseHabit ->
+                        viewModel.obtainEvent(HabitEditorEvent.OnSaveButtonClicked(baseHabit))
+                    }
                 }
-            }
-            is HabitEditorViewState.Error -> {
-                HabitEditorViewError(errorTextResId = state.messageResId) {
-                    viewModel.obtainEvent(HabitEditorEvent.OnReloadButtonClicked)
+                is HabitEditorViewState.Error -> {
+                    HabitEditorViewError(errorTextResId = state.messageResId) {
+                        viewModel.obtainEvent(HabitEditorEvent.OnReloadButtonClicked)
+                    }
                 }
-            }
-            HabitEditorViewState.Loading -> {
-                HabitEditorViewLoading()
+                HabitEditorViewState.Loading -> {
+                    HabitEditorViewLoading()
+                }
             }
         }
     }
 
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         launch {
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitEditorAction.PopBackStack -> {
                         navController.popBackStack()
+                    }
+                    is HabitEditorAction.ShowMessage -> {
+                        Toast.makeText(context,
+                            context.getString(action.messageResId),
+                            Toast.LENGTH_SHORT).show()
                     }
                 }
             }

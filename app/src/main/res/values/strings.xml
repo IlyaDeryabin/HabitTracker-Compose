@@ -2,7 +2,17 @@
     <string name="app_name">HabitTracker-Compose</string>
     <string name="error_message">Error while loading</string>
     <string name="try_again">Try again</string>
-    <string name="save">Save</string>
+    <string name="save_habit">Save habit</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="habit_type">Habit type</string>
+    <string name="habit_priority">Habit priority</string>
+    <string name="times">times</string>
+    <string name="days">days</string>
+    <string name="high">High</string>
+    <string name="medium">Medium</string>
+    <string name="low">Low</string>
+    <string name="amount">Amount</string>
+    <string name="frequency">Frequency</string>
+    <string name="fill_all_fields">Please, fill all fields.</string>
 </resources>

@@ -4,7 +4,10 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.d3rvich.habittracker_compose.R
 import ru.d3rvich.habittracker_compose.data.HabitStore
+import ru.d3rvich.habittracker_compose.entity.BaseHabitEntity
+import ru.d3rvich.habittracker_compose.entity.toHabitEntity
 import ru.d3rvich.habittracker_compose.ui.base.BaseViewModel
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorEvent
@@ -19,11 +22,9 @@ class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandl
 
     init {
         habitId = savedStateHandle.get("habitId")
-        if (habitId == null) {
-            setState(HabitEditorViewState.Creator)
-        } else {
-            loadHabitBy(habitId!!)
-        }
+        habitId?.let {
+            loadHabitBy(it)
+        } ?: setState(HabitEditorViewState.Creator(false))
     }
 
     override fun createInitialState(): HabitEditorViewState = HabitEditorViewState.Loading
@@ -40,8 +41,14 @@ class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandl
     private fun loadHabitBy(habitId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val habit = HabitStore.getHabitBy(habitId)
-            setState(HabitEditorViewState.Editor(habit))
+            setState(HabitEditorViewState.Editor(habit, false))
         }
+    }
+
+    private fun checkFields(habit: BaseHabitEntity): Boolean {
+        if (habit.color == null || habit.count == null || habit.frequency == null || habit.type == null) return false
+        if (habit.title.isEmpty() || habit.description.isEmpty()) return false
+        return true
     }
 
     private fun reduce(event: HabitEditorEvent, state: HabitEditorViewState.Creator) {
@@ -51,8 +58,14 @@ class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandl
             }
             is HabitEditorEvent.OnSaveButtonClicked -> {
                 viewModelScope.launch {
-                    HabitStore.addHabit(event.habit)
-                    sendAction { HabitEditorAction.PopBackStack }
+                    setState(state.copy(isUploading = true))
+                    if (checkFields(event.habit)) {
+                        HabitStore.addHabit(event.habit.toHabitEntity())
+                        sendAction { HabitEditorAction.PopBackStack }
+                    } else {
+                        setState(state.copy(isUploading = false))
+                        sendAction { HabitEditorAction.ShowMessage(R.string.fill_all_fields) }
+                    }
                 }
             }
             else -> unexpectedEventError(event, state)
@@ -66,8 +79,16 @@ class HabitEditorViewModel @Inject constructor(savedStateHandle: SavedStateHandl
             }
             is HabitEditorEvent.OnSaveButtonClicked -> {
                 viewModelScope.launch(Dispatchers.IO) {
-                    HabitStore.editHabit(event.habit)
-                    sendAction { HabitEditorAction.PopBackStack }
+                    setState(state.copy(isUploading = true))
+                    if (checkFields(event.habit)) {
+                        HabitStore.editHabit(event.habit.toHabitEntity(id = state.habit.id,
+                            date = state.habit.date,
+                            doneDates = state.habit.doneDates))
+                        sendAction { HabitEditorAction.PopBackStack }
+                    } else {
+                        setState(state.copy(isUploading = false))
+                        sendAction { HabitEditorAction.ShowMessage(R.string.fill_all_fields) }
+                    }
                 }
             }
             else -> unexpectedEventError(event, state)
