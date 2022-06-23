@@ -7,13 +7,16 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import ru.d3rvich.habittracker_compose.R
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.HabitListViewModel
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
 
@@ -31,7 +34,7 @@ fun HabitListViewFilter(
             .fillMaxWidth()
             .height(peekHeight)
             .background(Color.Gray)) {
-            Text(text = "Filter and sorting",
+            Text(text = stringResource(id = R.string.filter_label),
                 modifier = Modifier.align(Alignment.Center),
                 style = MaterialTheme.typography.h5.copy(color = Color.Black))
         }
@@ -39,7 +42,7 @@ fun HabitListViewFilter(
             .fillMaxWidth()
             .height(120.dp)
             .background(Color.LightGray)) {
-            val state = viewModel.uiState.collectAsState().value
+            val state by viewModel.uiState.collectAsState()
             TextField(value = state.filterConfig.filterText,
                 onValueChange = {
                     viewModel.obtainEvent(HabitListEvent.OnFilterTextChange(it))

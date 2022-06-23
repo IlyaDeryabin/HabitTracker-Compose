@@ -12,9 +12,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import ru.d3rvich.habittracker_compose.R
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.views.HabitListViewContent
@@ -40,16 +42,18 @@ fun HabitListScreen(
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         topBar = {
             TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
-                Text(text = "My habits")
+                Text(text = stringResource(id = R.string.my_habits))
             }, navigationIcon = {
                 IconButton(onClick = openDrawer) {
-                    Icon(imageVector = Icons.Default.Menu, contentDescription = "Open drawer")
+                    Icon(imageVector = Icons.Default.Menu,
+                        contentDescription = stringResource(id = R.string.open_drawer))
                 }
             }, backgroundColor = MaterialTheme.colors.surface)
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { viewModel.obtainEvent(HabitListEvent.OnAddHabitClicked) }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add habit")
+                Icon(imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(id = R.string.add_habit))
             }
         },
         sheetContent = {

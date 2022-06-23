@@ -87,7 +87,7 @@ private fun HabitList(
 ) {
     if (habits.isEmpty()) {
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "Список пуст")
+            Text(text = stringResource(id = R.string.empty_list))
         }
     } else {
         LazyColumn(

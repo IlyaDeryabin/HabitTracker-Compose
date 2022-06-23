@@ -13,8 +13,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import ru.d3rvich.habittracker_compose.R
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorEvent
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorViewState
@@ -28,10 +30,11 @@ fun HabitEditorScreen(
 ) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
-            Text(text = "Habit editor")
+            Text(text = stringResource(id = R.string.habit_editor))
         }, navigationIcon = {
             IconButton(onClick = { viewModel.obtainEvent(HabitEditorEvent.OnBackPressed) }) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Pop back")
+                Icon(Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.pop_back))
             }
         }, backgroundColor = MaterialTheme.colors.surface)
     }) { paddingValues ->
