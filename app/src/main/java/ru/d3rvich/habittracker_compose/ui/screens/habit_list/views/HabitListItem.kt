@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import ru.d3rvich.habittracker_compose.entity.HabitEntity
 import ru.d3rvich.habittracker_compose.entity.HabitType
 
-@ExperimentalFoundationApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HabitListItem(
     modifier: Modifier = Modifier,
@@ -92,7 +92,6 @@ fun HabitListItem(
     }
 }
 
-@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
 fun HabitListItemPreview() {
@@ -111,7 +110,6 @@ fun HabitListItemPreview() {
     HabitListItem(habit = habitEntity, onHabitLongClicked = {}, onHabitClicked = {})
 }
 
-@ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
 fun HabitListItemPreviewWithLongTitle() {

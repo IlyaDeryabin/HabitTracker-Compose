@@ -18,7 +18,7 @@ fun Modifier.clearFocusOnClick(): Modifier = composed {
     }
 }
 
-@ExperimentalLayoutApi
+@OptIn(ExperimentalLayoutApi::class)
 fun Modifier.clearFocusOnKeyboardDismiss(): Modifier = composed {
     var isFocused by remember {
         mutableStateOf(false)

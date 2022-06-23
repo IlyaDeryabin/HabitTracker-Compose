@@ -13,7 +13,7 @@ android {
         minSdk 21
         targetSdk 32
         versionCode 1
-        versionName "1.0"
+        versionName "0.6.0-beta"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -33,6 +33,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
     buildFeatures {
         compose true
@@ -60,9 +61,10 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
     /* Accompanist */
-    def accompanist_version = "0.24.10-beta"
+    def accompanist_version = "0.24.11-rc"
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
     implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
     // Room
     def room_version = "2.4.2"
@@ -73,11 +75,10 @@ dependencies {
     /* KTX */
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
 
     /* Dagger Hilt */
-    implementation 'com.google.dagger:hilt-android:2.41'
-    kapt 'com.google.dagger:hilt-compiler:2.41'
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 
     /* Test */
     testImplementation 'junit:junit:4.13.2'

@@ -21,7 +21,6 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditor
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditorViewEditor
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.views.HabitEditorViewLoading
 
-@ExperimentalMaterialApi
 @Composable
 fun HabitEditorScreen(
     navController: NavController,
@@ -34,7 +33,7 @@ fun HabitEditorScreen(
             IconButton(onClick = { viewModel.obtainEvent(HabitEditorEvent.OnBackPressed) }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Pop back")
             }
-        })
+        }, backgroundColor = MaterialTheme.colors.surface)
     }) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when (val state = viewModel.uiState.collectAsState().value) {

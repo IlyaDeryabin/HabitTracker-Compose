@@ -6,7 +6,9 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import ru.d3rvich.habittracker_compose.data.repositories.HabitRepository
+import ru.d3rvich.habittracker_compose.entity.HabitEntity
 import ru.d3rvich.habittracker_compose.ui.base.BaseViewModel
+import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.FilterConfig
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListAction
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListViewState
@@ -47,6 +49,15 @@ class HabitListViewModel @Inject constructor(private val habitRepository: HabitR
                 }
                 setState(currentState.copy(showDialog = false))
             }
+            is HabitListEvent.OnFilterTextChange -> {
+                updateViewState(currentState.filterConfig.copy(filterText = event.filterText))
+            }
+            is HabitListEvent.OnSortDirectionChange -> {
+                updateViewState(currentState.filterConfig.copy(sortDirection = event.direction))
+            }
+            is HabitListEvent.OnSortingMethodChange -> {
+                updateViewState(currentState.filterConfig.copy(sortingEngine = event.comparator))
+            }
         }
     }
 
@@ -68,6 +79,17 @@ class HabitListViewModel @Inject constructor(private val habitRepository: HabitR
             habitsFlow.value?.find { it.id == habitId }?.let { habitToRemove ->
                 habitRepository.deleteHabit(habitToRemove)
             }
+        }
+    }
+
+    private fun updateViewState(
+        filterConfig: FilterConfig,
+        habits: List<HabitEntity>? = habitsFlow.value,
+    ) {
+        habits?.let {
+            setState(currentState.copy(
+                habitList = filterConfig.execute(habits),
+                filterConfig = filterConfig))
         }
     }
 }

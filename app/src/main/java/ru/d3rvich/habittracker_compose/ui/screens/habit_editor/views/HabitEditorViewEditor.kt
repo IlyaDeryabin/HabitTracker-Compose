@@ -42,7 +42,6 @@ import ru.d3rvich.habittracker_compose.ui.utils.HSVGradient
 import ru.d3rvich.habittracker_compose.ui.utils.clearFocusOnClick
 import ru.d3rvich.habittracker_compose.ui.utils.rememberHSVGradient
 
-@ExperimentalMaterialApi
 @Composable
 fun HabitEditorViewEditor(
     modifier: Modifier = Modifier,
@@ -104,7 +103,7 @@ fun HabitEditorViewEditor(
             ColorPickerBlock(initialColor = color) {
                 color = it
             }
-            Spacer(modifier = Modifier.height(58.dp))
+            Spacer(modifier = Modifier.height(44.dp))
         }
         Button(
             onClick = {
@@ -205,7 +204,7 @@ private fun FrequencyField(
     }
 }
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun PrioritySelector(initialPriority: Int? = null, onPrioritySelect: (Int) -> Unit) {
     Column(modifier = Modifier
@@ -418,7 +417,6 @@ private fun ColorPicker(
     }, modifier = modifier.fillMaxWidth())
 }
 
-@ExperimentalMaterialApi
 @Preview(showBackground = true)
 @Composable
 private fun HabitEditorViewEditorPreview() {
