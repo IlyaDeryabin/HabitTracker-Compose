@@ -1,6 +1,7 @@
 package ru.d3rvich.habittracker_compose
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import ru.d3rvich.feature_habitlist.deps.HabitListDepsStore
+import ru.d3rvich.feature_habitlist.deps.HabitListNavRouter
 import ru.d3rvich.feature_habitlist.presentation.HabitListFragment
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.HabitEditorScreen
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.HabitEditorViewModel
@@ -19,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        provideRouters()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, HabitListFragment())
@@ -62,6 +66,22 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
+    private fun provideRouters() {
+        HabitListDepsStore.navRouter = HabitListNavRouterImpl()
+    }
+
+    inner class HabitListNavRouterImpl : HabitListNavRouter {
+        override fun navigateToHabitCreator() {
+            Toast.makeText(this@MainActivity, "navigateToHabitCreator", Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        override fun navigateToHabitEditorBy(id: String) {
+            Toast.makeText(this@MainActivity, "navigateToHabitEditorBy $id", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
     private fun NavGraphBuilder.initNavigation(
         navController: NavController,
         openDrawer: () -> Unit,
@@ -90,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
 
 @Composable
 private fun HabitTrackerDrawer() {

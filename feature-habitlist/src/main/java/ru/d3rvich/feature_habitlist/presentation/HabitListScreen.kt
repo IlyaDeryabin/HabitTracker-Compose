@@ -21,6 +21,7 @@ import ru.d3rvich.feature_habitlist.presentation.views.HabitListViewContent
 import ru.d3rvich.feature_habitlist.presentation.views.HabitListViewFilter
 import ru.d3rvich.feature_habitlist.presentation.views.RemoveHabitAlertDialog
 import ru.d3rvich.feature_habitlist.R
+import ru.d3rvich.feature_habitlist.deps.HabitListDepsProvider
 
 /**
  * Created by Ilya Deryabin at 26.06.2022
@@ -45,7 +46,7 @@ internal fun HabitListScreen(
             TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
                 Text(text = stringResource(id = R.string.my_habits))
             }, navigationIcon = {
-                IconButton(onClick = {  }) {
+                IconButton(onClick = { }) {
                     Icon(imageVector = Icons.Default.Menu,
                         contentDescription = stringResource(id = R.string.open_drawer))
                 }
@@ -85,9 +86,11 @@ internal fun HabitListScreen(
                 when (action) {
                     HabitListAction.NavigateToHabitCreator -> {
 //                        navController.navigate("habit_creator")
+                        HabitListDepsProvider.navRouter.navigateToHabitCreator()
                     }
                     is HabitListAction.NavigateToHabitEditor -> {
 //                        navController.navigate("habit_editor/${action.habitId}")
+                        HabitListDepsProvider.navRouter.navigateToHabitEditorBy(id = action.habitId)
                     }
                 }
             }

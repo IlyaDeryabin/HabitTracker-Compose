@@ -16,7 +16,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnLifecycleDe
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import ru.d3rvich.feature_habitlist.di.HabitListComponentViewModel
+import ru.d3rvich.feature_habitlist.deps.HabitListComponentViewModel
 import ru.d3rvich.feature_habitlist.presentation.theme.HabitTrackerComposeTheme
 import javax.inject.Inject
 

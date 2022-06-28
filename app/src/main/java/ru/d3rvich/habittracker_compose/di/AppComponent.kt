@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
-import ru.d3rvich.feature_habitlist.di.HabitListDeps
+import ru.d3rvich.feature_habitlist.deps.HabitListDeps
 import javax.inject.Singleton
 
 /**
