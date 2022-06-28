@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
-import ru.d3rvich.habittracker_compose.entity.HabitType
 
 /**
  * Created by Ilya Deryabin at 15.06.2022

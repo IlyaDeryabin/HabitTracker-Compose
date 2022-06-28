@@ -2,7 +2,6 @@ package ru.d3rvich.habittracker_compose.ui.screens.habit_editor
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.d3rvich.habittracker_compose.R
@@ -15,7 +14,6 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditor
 import ru.d3rvich.habittracker_compose.ui.screens.habit_editor.model.HabitEditorViewState
 import javax.inject.Inject
 
-@HiltViewModel
 class HabitEditorViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val habitRepository: HabitRepository,

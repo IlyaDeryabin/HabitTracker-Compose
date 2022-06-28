@@ -1,7 +1,6 @@
 package ru.d3rvich.habittracker_compose.ui.screens.habit_list
 
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -14,7 +13,6 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEven
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListViewState
 import javax.inject.Inject
 
-@HiltViewModel
 class HabitListViewModel @Inject constructor(private val habitRepository: HabitRepository) :
     BaseViewModel<HabitListEvent, HabitListViewState, HabitListAction>() {
 

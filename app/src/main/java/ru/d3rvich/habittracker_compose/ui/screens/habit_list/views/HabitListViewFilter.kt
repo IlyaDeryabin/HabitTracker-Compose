@@ -15,7 +15,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import ru.d3rvich.habittracker_compose.R
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.HabitListViewModel
 import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEvent
@@ -26,7 +25,7 @@ import ru.d3rvich.habittracker_compose.ui.screens.habit_list.model.HabitListEven
 @Composable
 fun HabitListViewFilter(
     modifier: Modifier = Modifier,
-    viewModel: HabitListViewModel = hiltViewModel(),
+    viewModel: HabitListViewModel,
     peekHeight: Dp = 0.dp,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -59,6 +58,6 @@ fun HabitListViewFilter(
 @Composable
 private fun HabitListViewFilterPreview() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-        HabitListViewFilter(peekHeight = 52.dp)
+//        HabitListViewFilter(peekHeight = 52.dp)
     }
 }
