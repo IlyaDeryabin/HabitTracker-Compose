@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 /**
  * Created by Ilya Deryabin at 29.06.2022
  *
- * [Modifier] позволяющий сбрасывать фокус при нажатии на пустое поле.
+ * [Modifier] позволяющий сбрасывать фокус при нажатии на пустое место.
  */
 fun Modifier.clearFocusOnClick(): Modifier = composed {
     val focusManager = LocalFocusManager.current

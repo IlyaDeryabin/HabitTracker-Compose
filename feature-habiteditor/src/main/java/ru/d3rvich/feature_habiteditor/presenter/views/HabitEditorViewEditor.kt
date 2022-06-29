@@ -32,6 +32,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
+import ru.d3rvich.core.utils.clearFocusOnClick
+import ru.d3rvich.core.utils.clearFocusOnKeyboardDismiss
 import ru.d3rvich.feature_habiteditor.domain.entities.BaseHabitEntity
 import ru.d3rvich.feature_habiteditor.domain.entities.HabitEntity
 import ru.d3rvich.feature_habiteditor.domain.entities.HabitType
@@ -74,6 +76,7 @@ internal fun HabitEditorViewEditor(
         modifier = modifier
             .fillMaxSize()
             .imePadding()
+            .clearFocusOnClick()
     ) {
         val scrollState = rememberScrollState()
         Column(
@@ -155,7 +158,9 @@ private fun FrequencyField(
                         focusManager.moveFocus(FocusDirection.Down)
                     }),
                     singleLine = true,
-                    modifier = Modifier.width(60.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .clearFocusOnKeyboardDismiss(),
                     textStyle = TextStyle.Default.copy(textAlign = TextAlign.Center),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent
@@ -186,7 +191,9 @@ private fun FrequencyField(
                         focusManager.clearFocus()
                     }),
                     singleLine = true,
-                    modifier = Modifier.width(60.dp),
+                    modifier = Modifier
+                        .width(60.dp)
+                        .clearFocusOnKeyboardDismiss(),
                     textStyle = TextStyle.Default.copy(textAlign = TextAlign.Center),
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.Transparent
@@ -309,7 +316,9 @@ private fun InputTextField(
         Text(
             text = stringResource(id = labelResId),
             fontSize = 20.sp,
-            modifier = Modifier.padding(start = 20.dp)
+            modifier = Modifier
+                .padding(start = 20.dp)
+                .clearFocusOnKeyboardDismiss()
         )
         Spacer(modifier = Modifier.height(12.dp))
         val focusManager = LocalFocusManager.current
@@ -384,7 +393,8 @@ private fun ColorPicker(
     }
     AndroidView(factory = { context ->
         SeekBar(context).apply {
-            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
             progressDrawable = gradient
             setPadding(0)
             thumb = ContextCompat.getDrawable(context, R.drawable.color_picker_thumb)
