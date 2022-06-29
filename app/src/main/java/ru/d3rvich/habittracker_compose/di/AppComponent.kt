@@ -4,6 +4,7 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
+import ru.d3rvich.feature_habiteditor.deps.HabitEditorDeps
 import ru.d3rvich.feature_habitlist.deps.HabitListDeps
 import javax.inject.Singleton
 
@@ -11,7 +12,7 @@ import javax.inject.Singleton
  * Created by Ilya Deryabin at 28.06.2022
  */
 @[Singleton Component(modules = [AppModule::class])]
-interface AppComponent : HabitListDeps {
+interface AppComponent : HabitListDeps, HabitEditorDeps {
 
     @Component.Builder
     interface Builder {

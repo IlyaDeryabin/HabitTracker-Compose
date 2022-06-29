@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -45,11 +44,6 @@ internal fun HabitListScreen(
         topBar = {
             TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
                 Text(text = stringResource(id = R.string.my_habits))
-            }, navigationIcon = {
-                IconButton(onClick = { }) {
-                    Icon(imageVector = Icons.Default.Menu,
-                        contentDescription = stringResource(id = R.string.open_drawer))
-                }
             }, backgroundColor = MaterialTheme.colors.surface)
         },
         floatingActionButton = {

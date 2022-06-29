@@ -1,6 +1,5 @@
 package ru.d3rvich.feature_habitlist.deps
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import ru.d3rvich.api.db.HabitDatabase
 import ru.d3rvich.feature_habitlist.di.DaggerHabitListComponent
@@ -10,8 +9,6 @@ import kotlin.properties.Delegates.notNull
  * Created by Ilya Deryabin at 28.06.2022
  */
 interface HabitListDeps {
-    val context: Context
-
     val habitDatabase: HabitDatabase
 }
 
