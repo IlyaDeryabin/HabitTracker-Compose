@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.d3rvich.core.theme.HabitTrackerComposeTheme
 import ru.d3rvich.feature_habiteditor.deps.HabitEditorDepsStore
 import ru.d3rvich.feature_habiteditor.deps.HabitEditorNavRouter
@@ -21,6 +22,7 @@ import ru.d3rvich.feature_habitlist.deps.HabitListDepsStore
 import ru.d3rvich.feature_habitlist.deps.HabitListNavRouter
 import ru.d3rvich.feature_habitlist.presentation.HabitListScreen
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
 
