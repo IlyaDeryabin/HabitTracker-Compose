@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    implementation project(path: ":core")
     implementation project(path: ":api")
     implementation project(path: ":feature-habitlist")
     implementation project(path: ":feature-habiteditor")

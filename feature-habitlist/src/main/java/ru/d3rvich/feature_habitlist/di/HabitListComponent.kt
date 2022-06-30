@@ -3,7 +3,7 @@ package ru.d3rvich.feature_habitlist.di
 import dagger.Component
 import ru.d3rvich.core.Feature
 import ru.d3rvich.feature_habitlist.deps.HabitListDeps
-import ru.d3rvich.feature_habitlist.presentation.HabitListFragment
+import ru.d3rvich.feature_habitlist.presentation.HabitListViewModel
 
 /**
  * Created by Ilya Deryabin at 24.06.2022
@@ -11,7 +11,7 @@ import ru.d3rvich.feature_habitlist.presentation.HabitListFragment
 @[Feature Component(dependencies = [HabitListDeps::class], modules = [DataModule::class])]
 internal interface HabitListComponent {
 
-    fun inject(fragment: HabitListFragment)
+    val habitListViewModelFactory: HabitListViewModel.Factory
 
     @Component.Builder
     interface Builder {

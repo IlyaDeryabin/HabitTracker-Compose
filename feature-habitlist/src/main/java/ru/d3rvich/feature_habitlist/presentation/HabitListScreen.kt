@@ -13,31 +13,33 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
+import ru.d3rvich.feature_habitlist.R
+import ru.d3rvich.feature_habitlist.deps.HabitListComponentViewModel
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListAction
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListEvent
 import ru.d3rvich.feature_habitlist.presentation.views.HabitListViewContent
 import ru.d3rvich.feature_habitlist.presentation.views.HabitListViewFilter
 import ru.d3rvich.feature_habitlist.presentation.views.RemoveHabitAlertDialog
-import ru.d3rvich.feature_habitlist.R
-import ru.d3rvich.feature_habitlist.deps.HabitListDepsProvider
 
 /**
  * Created by Ilya Deryabin at 26.06.2022
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun HabitListScreen(
-    viewModel: HabitListViewModel,
-    modifier: Modifier = Modifier,
-) {
+fun HabitListScreen(navController: NavHostController) {
+    val viewModelFactory = viewModel(HabitListComponentViewModel::class.java)
+        .habitListComponent.habitListViewModelFactory
+    val viewModel: HabitListViewModel = viewModel(factory = viewModelFactory)
     val viewState by viewModel.uiState.collectAsState()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val sheetPeekHeight = 60.dp
     BottomSheetScaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         scaffoldState = bottomSheetScaffoldState,
         sheetPeekHeight = sheetPeekHeight,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -79,12 +81,12 @@ internal fun HabitListScreen(
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitListAction.NavigateToHabitCreator -> {
-//                        navController.navigate("habit_creator")
-                        HabitListDepsProvider.navRouter.navigateToHabitCreator()
+                        navController.navigate("habit_creator")
+//                        HabitListDepsProvider.navRouter.navigateToHabitCreator()
                     }
                     is HabitListAction.NavigateToHabitEditor -> {
-//                        navController.navigate("habit_editor/${action.habitId}")
-                        HabitListDepsProvider.navRouter.navigateToHabitEditorBy(id = action.habitId)
+                        navController.navigate("habit_editor/${action.habitId}")
+//                        HabitListDepsProvider.navRouter.navigateToHabitEditorBy(id = action.habitId)
                     }
                 }
             }
