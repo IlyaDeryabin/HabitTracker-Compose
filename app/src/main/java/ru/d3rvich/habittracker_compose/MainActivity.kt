@@ -15,10 +15,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         provideRouters()
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container, HabitListFragment())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.container, HabitListFragment())
+                .commit()
+        }
     }
 
     private fun provideRouters() {
