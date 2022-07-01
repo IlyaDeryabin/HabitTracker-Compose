@@ -31,9 +31,7 @@ import ru.d3rvich.feature_habitlist.presentation.views.RemoveHabitAlertDialog
 fun HabitListScreen(navController: NavHostController) {
     val viewModel: HabitListViewModel = hiltViewModel()
     val viewState by viewModel.uiState.collectAsState()
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
     val sheetPeekHeight = 60.dp
     BottomSheetScaffold(
         modifier = Modifier.fillMaxSize(),
@@ -65,13 +63,11 @@ fun HabitListScreen(navController: NavHostController) {
                 viewModel.obtainEvent(HabitListEvent.OnHabitLongClicked(habitId))
             })
     }
-    if (viewState.showDialog) {
-        RemoveHabitAlertDialog(onConfirm = {
-            viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(true))
-        }, onDismiss = {
-            viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(false))
-        })
-    }
+    RemoveHabitAlertDialog(isVisible = viewState.showDialog, onConfirm = {
+        viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(true))
+    }, onDismiss = {
+        viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(false))
+    })
 
     LaunchedEffect(Unit) {
         launch {

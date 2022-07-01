@@ -109,6 +109,15 @@ private fun HabitList(
 
 @Preview(showBackground = true)
 @Composable
+private fun HabitListViewContentEmptyListPreview() {
+    HabitListViewContent(isLoading = false,
+        habits = emptyList(),
+        onHabitClicked = {},
+        onHabitLongClicked = {})
+}
+
+@Preview(showBackground = true)
+@Composable
 private fun HabitListViewContentPreview() {
     val habits: MutableList<HabitEntity> = mutableListOf()
     for (i in 0 until 20) {
@@ -127,4 +136,11 @@ private fun HabitListViewContentPreview() {
         habits.add(habit)
     }
     HabitListViewContent(habits = habits, onHabitClicked = {}, isLoading = false) {}
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun HabitListViewContentWithDialogPreview() {
+    HabitListViewContentPreview()
+    RemoveHabitAlertDialog(isVisible = true, onConfirm = {}, onDismiss = {})
 }

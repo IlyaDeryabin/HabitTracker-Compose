@@ -6,7 +6,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -94,7 +96,7 @@ internal fun HabitListItem(
 
 @Preview(showBackground = true)
 @Composable
-fun HabitListItemPreview() {
+private fun HabitListItemPreview() {
     val habitEntity = HabitEntity(
         id = "",
         title = "Title",
@@ -112,7 +114,7 @@ fun HabitListItemPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun HabitListItemPreviewWithLongTitle() {
+private fun HabitListItemPreviewWithLongTitle() {
     val habitEntity = HabitEntity(
         id = "",
         title = "VeryVeryVeryVeryVeryVeryVeryVeryVeryVeryLongText",
