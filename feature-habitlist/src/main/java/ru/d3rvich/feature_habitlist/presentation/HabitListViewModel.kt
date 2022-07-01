@@ -1,25 +1,25 @@
 package ru.d3rvich.feature_habitlist.presentation
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import ru.d3rvich.core.base.BaseViewModel
 import ru.d3rvich.feature_habitlist.domain.entities.HabitEntity
+import ru.d3rvich.feature_habitlist.domain.usecases.DeleteHabitUseCase
+import ru.d3rvich.feature_habitlist.domain.usecases.GetHabitsUseCase
 import ru.d3rvich.feature_habitlist.presentation.model.FilterConfig
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListAction
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListEvent
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListViewState
-import ru.d3rvich.feature_habitlist.domain.usecases.DeleteHabitUseCase
-import ru.d3rvich.feature_habitlist.domain.usecases.GetHabitsUseCase
 import javax.inject.Inject
 
 /**
  * Created by Ilya Deryabin at 24.06.2022
  */
-internal class HabitListViewModel(
+@HiltViewModel
+internal class HabitListViewModel @Inject constructor(
     getHabitsUseCase: GetHabitsUseCase,
     private val deleteHabitUseCase: DeleteHabitUseCase,
 ) : BaseViewModel<HabitListEvent, HabitListViewState, HabitListAction>() {
@@ -96,18 +96,6 @@ internal class HabitListViewModel(
             setState(currentState.copy(
                 habitList = filterConfig.execute(habits),
                 filterConfig = filterConfig))
-        }
-    }
-
-    class Factory @Inject constructor(
-        private val getHabitsUseCase: GetHabitsUseCase,
-        private val deleteHabitUseCase: DeleteHabitUseCase,
-    ) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            require(modelClass == HabitListViewModel::class.java)
-            return HabitListViewModel(getHabitsUseCase = getHabitsUseCase,
-                deleteHabitUseCase = deleteHabitUseCase) as T
         }
     }
 }
