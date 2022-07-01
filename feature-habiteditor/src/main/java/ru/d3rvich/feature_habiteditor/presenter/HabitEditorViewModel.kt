@@ -1,11 +1,8 @@
 package ru.d3rvich.feature_habiteditor.presenter
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.d3rvich.core.base.BaseViewModel
@@ -18,18 +15,25 @@ import ru.d3rvich.feature_habiteditor.domain.usecases.UpdateHabitUseCase
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorAction
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorEvent
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorViewState
+import javax.inject.Inject
 
 /**
  * Created by Ilya Deryabin at 28.06.2022
  */
-internal class HabitEditorViewModel constructor(
-    habitId: String? = null,
+@HiltViewModel
+internal class HabitEditorViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val getHabitUseCase: GetHabitUseCase,
     private val createHabitUseCase: CreateHabitUseCase,
     private val updateHabitUseCase: UpdateHabitUseCase,
 ) : BaseViewModel<HabitEditorEvent, HabitEditorViewState, HabitEditorAction>() {
 
+    companion object {
+        const val HABIT_ID = "habitId"
+    }
+
     init {
+        val habitId: String? = savedStateHandle.get(HABIT_ID)
         habitId?.let {
             loadHabitBy(it)
         } ?: setState(HabitEditorViewState.Creator(false))
@@ -102,28 +106,5 @@ internal class HabitEditorViewModel constructor(
 
     private fun reduce(event: HabitEditorEvent, state: HabitEditorViewState.Loading) {
         unexpectedEventError(event, state)
-    }
-
-    class Factory @AssistedInject constructor(
-        @Assisted("habitId") private val habitId: String? = null,
-        private val getHabitUseCase: GetHabitUseCase,
-        private val createHabitUseCase: CreateHabitUseCase,
-        private val updateHabitUseCase: UpdateHabitUseCase,
-    ) : ViewModelProvider.Factory {
-
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            require(modelClass == HabitEditorViewModel::class.java)
-            return HabitEditorViewModel(
-                habitId = habitId,
-                getHabitUseCase = getHabitUseCase,
-                createHabitUseCase = createHabitUseCase,
-                updateHabitUseCase = updateHabitUseCase) as T
-        }
-    }
-
-    @AssistedFactory
-    interface HabitIdAssistedFactory {
-        fun create(@Assisted("habitId") habitId: String? = null): Factory
     }
 }

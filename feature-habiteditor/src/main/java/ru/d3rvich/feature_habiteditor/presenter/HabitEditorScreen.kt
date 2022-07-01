@@ -11,32 +11,25 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
-import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorEvent
+import ru.d3rvich.feature_habiteditor.R
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorAction
+import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorEvent
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorViewState
 import ru.d3rvich.feature_habiteditor.presenter.views.HabitEditorViewEditor
 import ru.d3rvich.feature_habiteditor.presenter.views.HabitEditorViewLoading
-import ru.d3rvich.feature_habiteditor.R
-import ru.d3rvich.feature_habiteditor.deps.HabitEditorComponentViewModel
 
 /**
  * Created by Ilya Deryabin at 29.06.2022
  */
 @Composable
-fun HabitEditorScreen(navController: NavHostController, habitId: String? = null) {
-    val viewModelAssistedFactory = viewModel(HabitEditorComponentViewModel::class.java)
-        .habitEditorComponent.habitEditorViewModelAssistedFactory
-    val viewModelFactory = remember {
-        viewModelAssistedFactory.create(habitId = habitId)
-    }
-    val viewModel: HabitEditorViewModel = viewModel(factory = viewModelFactory)
+fun HabitEditorScreen(navController: NavHostController) {
+    val viewModel: HabitEditorViewModel = hiltViewModel()
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
             Text(text = stringResource(id = R.string.habit_editor))
@@ -74,7 +67,6 @@ fun HabitEditorScreen(navController: NavHostController, habitId: String? = null)
                 when (action) {
                     HabitEditorAction.PopBackStack -> {
                         navController.popBackStack()
-//                        HabitEditorDepsStore.navRouter.popBack()
                     }
                     is HabitEditorAction.ShowMessage -> {
                         Toast.makeText(context,

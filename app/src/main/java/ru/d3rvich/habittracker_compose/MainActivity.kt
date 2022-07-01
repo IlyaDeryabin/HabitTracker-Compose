@@ -35,10 +35,8 @@ class MainActivity : ComponentActivity() {
                         composable("habit_list") {
                             HabitListScreen(navController = navController)
                         }
-                        composable("habit_editor/{habitId}") { backStackEntry ->
-                            val habitId = backStackEntry.arguments?.getString("habitId", null)
-                                ?: error("Missing argument habitId")
-                            HabitEditorScreen(navController = navController, habitId = habitId)
+                        composable("habit_editor/{habitId}") { // habitId берётся во ViewModel через SavedStateHandle
+                            HabitEditorScreen(navController = navController)
                         }
                         composable("habit_creator") {
                             HabitEditorScreen(navController = navController)
