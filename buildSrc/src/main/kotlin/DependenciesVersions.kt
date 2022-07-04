@@ -6,6 +6,8 @@
 object DependenciesVersions {
     const val KOTLIN = "1.6.21"
     const val COROUTINES = "1.6.3"
+    const val APPCOMPAT = "1.4.2"
+    const val MATERIAL = "1.6.1"
 
     object Compose {
         const val ACTIVITY = "1.4.0"
@@ -21,6 +23,7 @@ object DependenciesVersions {
 
     const val ROOM = "2.4.2"
     const val HILT = "2.42"
+    const val CORE_KTX = "1.8.0"
     const val VIEW_MODEL_KTX = "2.4.1"
 
     const val JUNIT = "4.13.2"
