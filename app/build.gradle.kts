@@ -55,7 +55,9 @@ android {
 dependencies {
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.API))
+    implementation(project(BuildModules.Features.HABIT_LIST_API))
     implementation(project(BuildModules.Features.HABIT_LIST))
+    implementation(project(BuildModules.Features.HABIT_EDITOR_API))
     implementation(project(BuildModules.Features.HABIT_EDITOR))
 
     implementation(Dependencies.APPCOMPAT)

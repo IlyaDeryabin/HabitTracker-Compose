@@ -9,7 +9,9 @@ object BuildModules {
     const val API = ":api"
 
     object Features {
+        const val HABIT_LIST_API = ":feature-habitlist-api"
         const val HABIT_LIST = ":feature-habitlist"
+        const val HABIT_EDITOR_API = ":feature-habiteditor-api"
         const val HABIT_EDITOR = ":feature-habiteditor"
     }
 }

@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
  * Created by Ilya Deryabin at 29.06.2022
  */
 @Composable
-fun HabitEditorViewLoading(modifier: Modifier = Modifier) {
+internal fun HabitEditorViewLoading(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         CircularProgressIndicator()
     }

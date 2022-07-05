@@ -44,6 +44,7 @@ android {
 dependencies {
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.API))
+    implementation(project(BuildModules.Features.HABIT_EDITOR_API))
 
     // Coroutines
     implementation(Dependencies.COROUTINES)

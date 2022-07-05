@@ -74,10 +74,13 @@ fun HabitListScreen(navController: NavHostController) {
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitListAction.NavigateToHabitCreator -> {
-                        navController.navigate("habit_creator")
+                        viewModel.habitEditorFeatureApi.showScreen(navController = navController)
+//                        navController.navigate("habit_creator")
                     }
                     is HabitListAction.NavigateToHabitEditor -> {
-                        navController.navigate("habit_editor/${action.habitId}")
+//                        navController.navigate("habit_editor/${action.habitId}")
+                        viewModel.habitEditorFeatureApi.showScreen(navController = navController,
+                            habitId = action.habitId)
                     }
                 }
             }

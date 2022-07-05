@@ -45,6 +45,8 @@ android {
 dependencies {
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.API))
+    implementation(project(BuildModules.Features.HABIT_LIST_API))
+    implementation(project(BuildModules.Features.HABIT_EDITOR_API))
 
     // Accompanist
     implementation(Dependencies.Accompanist.PAGER)
@@ -58,7 +60,7 @@ dependencies {
     implementation(Dependencies.Compose.MATERIAL)
     implementation(Dependencies.Compose.PREVIEW)
 
-    // Naviagation
+    // Navigation
     implementation(Dependencies.Compose.NAVIGATION)
     implementation(Dependencies.Compose.HILT_NAVIGATION)
 
