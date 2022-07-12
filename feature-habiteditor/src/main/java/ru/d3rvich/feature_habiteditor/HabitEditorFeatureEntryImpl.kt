@@ -20,7 +20,7 @@ internal class HabitEditorFeatureEntryImpl @Inject constructor() : HabitEditorFe
         destinations: Destinations,
         backStackEntry: NavBackStackEntry,
     ) {
-        HabitEditorScreen() {
+        HabitEditorScreen {
             navController.popBackStack()
         }
     }

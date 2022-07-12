@@ -15,7 +15,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.d3rvich.core.Destinations
 import ru.d3rvich.core.find
 import ru.d3rvich.core.theme.HabitTrackerComposeTheme
-import ru.d3rvich.feature_habiteditor_api.HabitEditorFeatureEntry
 import ru.d3rvich.feature_habitlist_api.HabitListFeatureEntry
 import javax.inject.Inject
 
@@ -36,24 +35,19 @@ class MainActivity : ComponentActivity() {
                         .navigationBarsPadding(),
                     color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
-                    val habitListEntry = destinations.find<HabitListFeatureEntry>()
-                    val habitEditorEntry = destinations.find<HabitEditorFeatureEntry>()
+                    val startDestination = destinations.find<HabitListFeatureEntry>().destination()
                     NavHost(navController = navController,
-                        startDestination = habitListEntry.destination()) {
-                        with(habitListEntry) {
-                            composable(navController, destinations)
+                        startDestination = startDestination) {
+                        destinations.forEach {
+                            with(it.value) {
+                                composable(navController, destinations)
+                            }
                         }
-                        with(habitEditorEntry) {
-                            composable(navController, destinations)
-                        }
-//                        composable("habit_list") {
-//                            HabitListScreen(navController = navController)
+//                        with(habitListEntry) {
+//                            composable(navController, destinations)
 //                        }
-//                        composable("habit_editor/{habitId}") { // habitId берётся во ViewModel через SavedStateHandle
-//                            HabitEditorScreen(navController = navController)
-//                        }
-//                        composable("habit_creator") {
-//                            HabitEditorScreen(navController = navController)
+//                        with(habitEditorEntry) {
+//                            composable(navController, destinations)
 //                        }
                     }
                 }
