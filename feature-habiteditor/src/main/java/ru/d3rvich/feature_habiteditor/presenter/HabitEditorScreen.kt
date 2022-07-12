@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.d3rvich.feature_habiteditor.R
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorAction
@@ -28,7 +27,7 @@ import ru.d3rvich.feature_habiteditor.presenter.views.HabitEditorViewLoading
  * Created by Ilya Deryabin at 29.06.2022
  */
 @Composable
-fun HabitEditorScreen(navController: NavHostController) {
+internal fun HabitEditorScreen(popBackStack: () -> Unit) {
     val viewModel: HabitEditorViewModel = hiltViewModel()
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
@@ -66,7 +65,7 @@ fun HabitEditorScreen(navController: NavHostController) {
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitEditorAction.PopBackStack -> {
-                        navController.popBackStack()
+                        popBackStack()
                     }
                     is HabitEditorAction.ShowMessage -> {
                         Toast.makeText(context,

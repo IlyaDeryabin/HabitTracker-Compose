@@ -47,8 +47,14 @@ dependencies {
     implementation(Dependencies.Compose.MATERIAL)
     implementation(Dependencies.Compose.PREVIEW)
 
+    // Navigation
+    implementation(Dependencies.Compose.NAVIGATION)
+
     // Accompanist
     implementation(Dependencies.Accompanist.SYSTEM_UI_CONTROLLER)
+
+    // Hilt
+    implementation(Dependencies.HILT)
 
     // KTX
     implementation(Dependencies.CORE_KTX)

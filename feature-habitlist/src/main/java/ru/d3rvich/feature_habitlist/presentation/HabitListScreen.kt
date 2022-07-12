@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 import ru.d3rvich.feature_habitlist.R
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListAction
@@ -28,7 +27,7 @@ import ru.d3rvich.feature_habitlist.presentation.views.RemoveHabitAlertDialog
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HabitListScreen(navController: NavHostController) {
+internal fun HabitListScreen(navigateToHabitCreator: () -> Unit, navigateToHabitEditor: (String) -> Unit) {
     val viewModel: HabitListViewModel = hiltViewModel()
     val viewState by viewModel.uiState.collectAsState()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
@@ -74,13 +73,10 @@ fun HabitListScreen(navController: NavHostController) {
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitListAction.NavigateToHabitCreator -> {
-                        viewModel.habitEditorFeatureApi.showScreen(navController = navController)
-//                        navController.navigate("habit_creator")
+                        navigateToHabitCreator()
                     }
                     is HabitListAction.NavigateToHabitEditor -> {
-//                        navController.navigate("habit_editor/${action.habitId}")
-                        viewModel.habitEditorFeatureApi.showScreen(navController = navController,
-                            habitId = action.habitId)
+                        navigateToHabitEditor(action.habitId)
                     }
                 }
             }

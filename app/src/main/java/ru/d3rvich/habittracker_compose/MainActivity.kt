@@ -10,15 +10,20 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import ru.d3rvich.core.Destinations
+import ru.d3rvich.core.find
 import ru.d3rvich.core.theme.HabitTrackerComposeTheme
-import ru.d3rvich.feature_habiteditor.presenter.HabitEditorScreen
-import ru.d3rvich.feature_habitlist.presentation.HabitListScreen
+import ru.d3rvich.feature_habiteditor_api.HabitEditorFeatureEntry
+import ru.d3rvich.feature_habitlist_api.HabitListFeatureEntry
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var destinations: Destinations
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +36,25 @@ class MainActivity : ComponentActivity() {
                         .navigationBarsPadding(),
                     color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "habit_list") {
-                        composable("habit_list") {
-                            HabitListScreen(navController = navController)
+                    val habitListEntry = destinations.find<HabitListFeatureEntry>()
+                    val habitEditorEntry = destinations.find<HabitEditorFeatureEntry>()
+                    NavHost(navController = navController,
+                        startDestination = habitListEntry.destination()) {
+                        with(habitListEntry) {
+                            composable(navController, destinations)
                         }
-                        composable("habit_editor/{habitId}") { // habitId берётся во ViewModel через SavedStateHandle
-                            HabitEditorScreen(navController = navController)
+                        with(habitEditorEntry) {
+                            composable(navController, destinations)
                         }
-                        composable("habit_creator") {
-                            HabitEditorScreen(navController = navController)
-                        }
+//                        composable("habit_list") {
+//                            HabitListScreen(navController = navController)
+//                        }
+//                        composable("habit_editor/{habitId}") { // habitId берётся во ViewModel через SavedStateHandle
+//                            HabitEditorScreen(navController = navController)
+//                        }
+//                        composable("habit_creator") {
+//                            HabitEditorScreen(navController = navController)
+//                        }
                     }
                 }
             }

@@ -6,7 +6,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import ru.d3rvich.core.base.BaseViewModel
-import ru.d3rvich.feature_habiteditor_api.HabitEditorFeatureApi
 import ru.d3rvich.feature_habitlist.domain.entities.HabitEntity
 import ru.d3rvich.feature_habitlist.domain.usecases.DeleteHabitUseCase
 import ru.d3rvich.feature_habitlist.domain.usecases.GetHabitsUseCase
@@ -22,8 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class HabitListViewModel @Inject constructor(
     getHabitsUseCase: GetHabitsUseCase,
-    private val deleteHabitUseCase: DeleteHabitUseCase,
-    val habitEditorFeatureApi: HabitEditorFeatureApi,
+    private val deleteHabitUseCase: DeleteHabitUseCase
 ) : BaseViewModel<HabitListEvent, HabitListViewState, HabitListAction>() {
 
     override fun createInitialState(): HabitListViewState =
