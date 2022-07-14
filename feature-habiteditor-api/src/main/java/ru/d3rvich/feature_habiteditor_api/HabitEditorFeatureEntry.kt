@@ -12,7 +12,7 @@ abstract class HabitEditorFeatureEntry : ComposableFeatureEntry {
     final override val featureRoute: String
         get() = "habit_editor?$HABIT_ID_ARG={$HABIT_ID_ARG}"
 
-    override val arguments: List<NamedNavArgument>
+    final override val arguments: List<NamedNavArgument>
         get() = listOf(
             navArgument(HABIT_ID_ARG) {
                 type = NavType.StringType

@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
+import ru.d3rvich.core.AggregateFeatureEntry
+import ru.d3rvich.core.ComposableFeatureEntry
 import ru.d3rvich.core.Destinations
 import ru.d3rvich.core.find
 import ru.d3rvich.core.theme.HabitTrackerComposeTheme
@@ -38,17 +40,18 @@ class MainActivity : ComponentActivity() {
                     val startDestination = destinations.find<HabitListFeatureEntry>().destination()
                     NavHost(navController = navController,
                         startDestination = startDestination) {
-                        destinations.forEach {
-                            with(it.value) {
-                                composable(navController, destinations)
+                        destinations.values.forEach { destination ->
+                            with (destination) {
+                                when (this) {
+                                    is ComposableFeatureEntry -> {
+                                        composable(navController, destinations)
+                                    }
+                                    is AggregateFeatureEntry -> {
+                                        navigation(navController, destinations)
+                                    }
+                                }
                             }
                         }
-//                        with(habitListEntry) {
-//                            composable(navController, destinations)
-//                        }
-//                        with(habitEditorEntry) {
-//                            composable(navController, destinations)
-//                        }
                     }
                 }
             }

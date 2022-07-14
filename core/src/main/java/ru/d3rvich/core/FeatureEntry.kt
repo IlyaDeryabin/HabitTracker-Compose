@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.*
 import androidx.navigation.compose.composable
 
-typealias Destinations = Map<Class<out ComposableFeatureEntry>, @JvmSuppressWildcards ComposableFeatureEntry>
+typealias Destinations = Map<Class<out FeatureEntry>, @JvmSuppressWildcards FeatureEntry>
 
 /**
  * Created by Ilya Deryabin at 12.07.2022
@@ -34,6 +34,10 @@ interface ComposableFeatureEntry : FeatureEntry {
         destinations: Destinations,
         backStackEntry: NavBackStackEntry,
     )
+}
+
+interface AggregateFeatureEntry : FeatureEntry {
+    fun NavGraphBuilder.navigation(navController: NavHostController, destinations: Destinations)
 }
 
 inline fun <reified T : ComposableFeatureEntry> Destinations.find(): T =
