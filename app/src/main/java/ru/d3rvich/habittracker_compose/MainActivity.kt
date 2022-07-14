@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import ru.d3rvich.core.AggregateFeatureEntry
-import ru.d3rvich.core.ComposableFeatureEntry
-import ru.d3rvich.core.Destinations
-import ru.d3rvich.core.find
+import ru.d3rvich.core.feature.AggregateFeatureEntry
+import ru.d3rvich.core.feature.ComposableFeatureEntry
+import ru.d3rvich.core.feature.Destinations
+import ru.d3rvich.core.feature.find
 import ru.d3rvich.core.theme.HabitTrackerComposeTheme
 import ru.d3rvich.feature_habitlist_api.HabitListFeatureEntry
 import javax.inject.Inject

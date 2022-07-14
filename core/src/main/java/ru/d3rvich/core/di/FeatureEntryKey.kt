@@ -1,7 +1,7 @@
 package ru.d3rvich.core.di
 
 import dagger.MapKey
-import ru.d3rvich.core.FeatureEntry
+import ru.d3rvich.core.feature.FeatureEntry
 import kotlin.reflect.KClass
 
 /**

@@ -1,4 +1,4 @@
-package ru.d3rvich.core
+package ru.d3rvich.core.feature
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.*

@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import ru.d3rvich.core.Destinations
-import ru.d3rvich.core.find
+import ru.d3rvich.core.feature.Destinations
+import ru.d3rvich.core.feature.find
 import ru.d3rvich.feature_habiteditor_api.HabitEditorFeatureEntry
 import ru.d3rvich.feature_habitlist.presentation.HabitListScreen
 import ru.d3rvich.feature_habitlist_api.HabitListFeatureEntry
@@ -22,15 +22,15 @@ internal class HabitListFeatureEntryImpl @Inject constructor() : HabitListFeatur
         destinations: Destinations,
         backStackEntry: NavBackStackEntry,
     ) {
+        val habitEditorEntry = destinations.find<HabitEditorFeatureEntry>()
         HabitListScreen(navigateToHabitCreator = {
-            destinations.find<HabitEditorFeatureEntry>().habitCreatorDestination().also {
+            habitEditorEntry.habitCreatorDestination().also {
                 navController.navigate(it)
             }
         }, navigateToHabitEditor = { habitId ->
-            destinations.find<HabitEditorFeatureEntry>().habitEditorDestination(habitId = habitId)
-                .also {
-                    navController.navigate(it)
-                }
+            habitEditorEntry.habitEditorDestination(habitId = habitId).also {
+                navController.navigate(it)
+            }
         })
     }
 }

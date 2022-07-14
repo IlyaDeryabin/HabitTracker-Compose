@@ -3,7 +3,7 @@ package ru.d3rvich.feature_habiteditor_api
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import ru.d3rvich.core.ComposableFeatureEntry
+import ru.d3rvich.core.feature.ComposableFeatureEntry
 
 /**
  * Created by Ilya Deryabin at 12.07.2022

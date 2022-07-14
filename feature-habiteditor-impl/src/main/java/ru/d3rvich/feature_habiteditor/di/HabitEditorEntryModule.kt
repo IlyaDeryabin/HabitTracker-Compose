@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
-import ru.d3rvich.core.FeatureEntry
+import ru.d3rvich.core.feature.FeatureEntry
 import ru.d3rvich.core.di.FeatureEntryKey
 import ru.d3rvich.feature_habiteditor.HabitEditorFeatureEntryImpl
 import ru.d3rvich.feature_habiteditor_api.HabitEditorFeatureEntry

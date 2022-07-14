@@ -2,23 +2,23 @@ import dependencies.*
 import extensions.*
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id(BuildPlugins.ANDROID_LIBRARY)
+    id(BuildPlugins.KOTLIN_ANDROID)
 }
 
 android {
-    compileSdk = 32
+    compileSdk = BuildAndroidConfig.COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 32
+        minSdk = BuildAndroidConfig.MIN_SDK_VERSION
+        targetSdk = BuildAndroidConfig.TARGET_SDK_VERSION
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro")
@@ -34,14 +34,14 @@ android {
 }
 
 dependencies {
+    implementation(project(BuildModules.CORE))
 
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("com.google.android.material:material:1.6.1")
+    implementation(Dependencies.CORE_KTX)
+    implementation(Dependencies.APPCOMPAT)
+    implementation(Dependencies.MATERIAL)
     implementation(Dependencies.Compose.UI)
     implementation(Dependencies.Compose.NAVIGATION)
-    implementation(project(mapOf("path" to ":core")))
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    testImplementation(TestDependencies.JUNIT)
+    androidTestImplementation(AndroidTestDependencies.JUNIT)
+    androidTestImplementation(AndroidTestDependencies.ESPRESSO)
 }
