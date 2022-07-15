@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import ru.d3rvich.core.theme.model.ThemeMode
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -33,10 +34,12 @@ private val LightColorPalette = lightColors(
 )
 
 @Composable
-fun HabitTrackerComposeTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
-) {
+fun HabitTrackerComposeTheme(content: @Composable () -> Unit) {
+    val darkTheme = when (ThemeConfig.currentThemeMode.value) {
+        ThemeMode.DEFAULT -> isSystemInDarkTheme()
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {

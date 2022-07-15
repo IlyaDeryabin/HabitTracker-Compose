@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
@@ -33,8 +32,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .statusBarsPadding()
-                        .navigationBarsPadding(),
+                        .systemBarsPadding(),
                     color = MaterialTheme.colors.background) {
                     val navController = rememberNavController()
                     val startDestination = destinations.find<HabitListFeatureEntry>().destination()

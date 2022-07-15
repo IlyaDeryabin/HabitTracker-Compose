@@ -9,9 +9,9 @@ import ru.d3rvich.core.feature.ComposableFeatureEntry
  * Created by Ilya Deryabin at 12.07.2022
  */
 abstract class HabitEditorFeatureEntry : ComposableFeatureEntry {
-    private val featureBase = "habit_editor"
+    private val baseFeatureRoute = "habit_editor"
     final override val featureRoute: String
-        get() = "$featureBase?$HABIT_ID_ARG={$HABIT_ID_ARG}"
+        get() = "$baseFeatureRoute?$HABIT_ID_ARG={$HABIT_ID_ARG}"
 
     final override val arguments: List<NamedNavArgument>
         get() = listOf(
@@ -22,9 +22,9 @@ abstract class HabitEditorFeatureEntry : ComposableFeatureEntry {
             }
         )
 
-    fun habitCreatorDestination(): String = featureBase
+    fun habitCreatorDestination(): String = baseFeatureRoute
 
-    fun habitEditorDestination(habitId: String): String = "$featureBase?$HABIT_ID_ARG=$habitId"
+    fun habitEditorDestination(habitId: String): String = "$baseFeatureRoute?$HABIT_ID_ARG=$habitId"
 
     protected companion object {
         const val HABIT_ID_ARG = "habitId"
