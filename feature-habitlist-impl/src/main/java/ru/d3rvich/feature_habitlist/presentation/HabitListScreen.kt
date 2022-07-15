@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,7 +28,11 @@ import ru.d3rvich.feature_habitlist.presentation.views.RemoveHabitAlertDialog
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun HabitListScreen(navigateToHabitCreator: () -> Unit, navigateToHabitEditor: (String) -> Unit) {
+internal fun HabitListScreen(
+    navigateToHabitCreator: () -> Unit,
+    navigateToHabitEditor: (String) -> Unit,
+    navigateToSettings: () -> Unit,
+) {
     val viewModel: HabitListViewModel = hiltViewModel()
     val viewState by viewModel.uiState.collectAsState()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
@@ -38,9 +43,17 @@ internal fun HabitListScreen(navigateToHabitCreator: () -> Unit, navigateToHabit
         sheetPeekHeight = sheetPeekHeight,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         topBar = {
-            TopAppBar(modifier = Modifier.fillMaxWidth(), title = {
-                Text(text = stringResource(id = R.string.my_habits))
-            }, backgroundColor = MaterialTheme.colors.surface)
+            TopAppBar(modifier = Modifier.fillMaxWidth(),
+                title = {
+                    Text(text = stringResource(id = R.string.my_habits))
+                },
+                backgroundColor = MaterialTheme.colors.surface,
+                actions = {
+                    IconButton(onClick = { navigateToSettings() }) {
+                        Icon(imageVector = Icons.Default.Settings,
+                            contentDescription = "Navigate to settings")
+                    }
+                })
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { viewModel.obtainEvent(HabitListEvent.OnAddHabitClicked) }) {

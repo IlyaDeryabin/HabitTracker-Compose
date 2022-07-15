@@ -10,7 +10,9 @@ rootProject.buildFileName = "build.gradle.kts"
 include(":app",
     ":api",
     ":core",
-    ":feature-habitlist",
-    ":feature-habiteditor",
     ":feature-habitlist-api",
-    ":feature-habiteditor-api")
+    ":feature-habitlist-impl",
+    ":feature-habiteditor-api",
+    ":feature-habiteditor-impl",
+    ":feature-settings-api",
+    ":feature-settings-impl")

@@ -9,6 +9,7 @@ import ru.d3rvich.core.feature.find
 import ru.d3rvich.feature_habiteditor_api.HabitEditorFeatureEntry
 import ru.d3rvich.feature_habitlist.presentation.HabitListScreen
 import ru.d3rvich.feature_habitlist_api.HabitListFeatureEntry
+import ru.d3rvich.feature_settings_api.SettingsFeatureEntry
 import javax.inject.Inject
 
 /**
@@ -29,6 +30,10 @@ internal class HabitListFeatureEntryImpl @Inject constructor() : HabitListFeatur
             }
         }, navigateToHabitEditor = { habitId ->
             habitEditorEntry.habitEditorDestination(habitId = habitId).also {
+                navController.navigate(it)
+            }
+        }, navigateToSettings = {
+            destinations.find<SettingsFeatureEntry>().destination().also {
                 navController.navigate(it)
             }
         })

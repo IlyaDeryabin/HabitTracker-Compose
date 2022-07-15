@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController,
                         startDestination = startDestination) {
                         destinations.values.forEach { destination ->
-                            with (destination) {
+                            with(destination) {
                                 when (this) {
                                     is ComposableFeatureEntry -> {
                                         composable(navController, destinations)

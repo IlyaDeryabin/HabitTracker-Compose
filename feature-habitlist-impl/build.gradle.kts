@@ -47,6 +47,7 @@ dependencies {
     implementation(project(BuildModules.API))
     implementation(project(BuildModules.Features.HABIT_LIST_API))
     implementation(project(BuildModules.Features.HABIT_EDITOR_API))
+    implementation(project(BuildModules.Features.SETTINGS_API))
 
     // Accompanist
     implementation(Dependencies.Accompanist.PAGER)

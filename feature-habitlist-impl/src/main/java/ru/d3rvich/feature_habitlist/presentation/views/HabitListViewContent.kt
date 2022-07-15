@@ -95,7 +95,7 @@ private fun HabitList(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(horizontal = 4.dp)
         ) {
-            items(habits) {
+            items(habits, key = { it.id }) {
                 HabitListItem(habit = it,
                     onHabitClicked = onHabitClicked,
                     onHabitLongClicked = onHabitLongClicked)
