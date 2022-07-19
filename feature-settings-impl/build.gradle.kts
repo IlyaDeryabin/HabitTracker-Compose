@@ -44,6 +44,7 @@ android {
 dependencies {
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.Features.SETTINGS_API))
+    implementation(project(BuildModules.Features.HABIT_LIST_API))
 
     // Compose
     implementation(Dependencies.Compose.UI)
@@ -52,6 +53,9 @@ dependencies {
 
     // Navigation
     implementation(Dependencies.Compose.NAVIGATION)
+
+    // Accompanist
+    implementation(Dependencies.Accompanist.NAVIGATION_ANIMATION)
 
     /* Dagger Hilt */
     implementation(Dependencies.HILT)

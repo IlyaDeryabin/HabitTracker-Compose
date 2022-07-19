@@ -52,6 +52,7 @@ dependencies {
     // Accompanist
     implementation(Dependencies.Accompanist.PAGER)
     implementation(Dependencies.Accompanist.PAGER_INDICATORS)
+    implementation(Dependencies.Accompanist.NAVIGATION_ANIMATION)
 
     // Coroutines
     implementation(Dependencies.COROUTINES)

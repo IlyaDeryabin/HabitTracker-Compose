@@ -45,6 +45,7 @@ dependencies {
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.API))
     implementation(project(BuildModules.Features.HABIT_EDITOR_API))
+    implementation(project(BuildModules.Features.HABIT_LIST_API))
 
     // Coroutines
     implementation(Dependencies.COROUTINES)
@@ -61,6 +62,9 @@ dependencies {
     // Navigation
     implementation(Dependencies.Compose.NAVIGATION)
     implementation(Dependencies.Compose.HILT_NAVIGATION)
+
+    // Accompanist
+    implementation(Dependencies.Accompanist.NAVIGATION_ANIMATION)
 
     // KTX
     implementation(Dependencies.CORE_KTX)

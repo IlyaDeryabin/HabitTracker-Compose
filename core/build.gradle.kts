@@ -52,6 +52,7 @@ dependencies {
 
     // Accompanist
     implementation(Dependencies.Accompanist.SYSTEM_UI_CONTROLLER)
+    implementation(Dependencies.Accompanist.NAVIGATION_ANIMATION)
 
     // Hilt
     implementation(Dependencies.HILT)

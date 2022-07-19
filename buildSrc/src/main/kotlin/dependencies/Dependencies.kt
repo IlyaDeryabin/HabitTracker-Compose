@@ -29,6 +29,8 @@ object Dependencies {
             "com.google.accompanist:accompanist-pager-indicators:${DependenciesVersions.Compose.ACCOMPANIST}"
         const val SYSTEM_UI_CONTROLLER =
             "com.google.accompanist:accompanist-systemuicontroller:${DependenciesVersions.Compose.ACCOMPANIST}"
+        const val NAVIGATION_ANIMATION =
+            "com.google.accompanist:accompanist-navigation-animation:${DependenciesVersions.Compose.ACCOMPANIST}"
     }
 
     object Room {

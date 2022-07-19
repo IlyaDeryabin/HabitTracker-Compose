@@ -75,6 +75,9 @@ dependencies {
     implementation(Dependencies.Compose.NAVIGATION)
     implementation(Dependencies.Compose.HILT_NAVIGATION)
 
+    // Accompanist
+    implementation(Dependencies.Accompanist.NAVIGATION_ANIMATION)
+
     /* Dagger Hilt */
     implementation(Dependencies.HILT)
     kapt(AnnotationProcessorDependencies.HILT)

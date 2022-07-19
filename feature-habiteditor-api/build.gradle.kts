@@ -41,6 +41,7 @@ dependencies {
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.Compose.UI)
     implementation(Dependencies.Compose.NAVIGATION)
+    implementation(Dependencies.Accompanist.NAVIGATION_ANIMATION)
     testImplementation(TestDependencies.JUNIT)
     androidTestImplementation(AndroidTestDependencies.JUNIT)
     androidTestImplementation(AndroidTestDependencies.ESPRESSO)

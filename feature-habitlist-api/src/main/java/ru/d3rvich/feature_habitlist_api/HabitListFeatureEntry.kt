@@ -8,6 +8,4 @@ import ru.d3rvich.core.feature.ComposableFeatureEntry
 abstract class HabitListFeatureEntry: ComposableFeatureEntry {
     final override val featureRoute: String
         get() = "habit_list"
-
-    fun destination() = featureRoute
 }

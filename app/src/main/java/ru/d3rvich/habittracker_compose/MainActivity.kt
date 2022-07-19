@@ -3,13 +3,14 @@ package ru.d3rvich.habittracker_compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ru.d3rvich.core.feature.AggregateFeatureEntry
 import ru.d3rvich.core.feature.ComposableFeatureEntry
@@ -19,6 +20,7 @@ import ru.d3rvich.core.theme.HabitTrackerComposeTheme
 import ru.d3rvich.feature_habitlist_api.HabitListFeatureEntry
 import javax.inject.Inject
 
+@OptIn(ExperimentalAnimationApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -34,10 +36,12 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .systemBarsPadding(),
                     color = MaterialTheme.colors.background) {
-                    val navController = rememberNavController()
-                    val startDestination = destinations.find<HabitListFeatureEntry>().destination()
-                    NavHost(navController = navController,
-                        startDestination = startDestination) {
+                    val navController = rememberAnimatedNavController()
+                    val startDestination = destinations.find<HabitListFeatureEntry>().featureRoute
+                    AnimatedNavHost(navController = navController,
+                        startDestination = startDestination,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
                         destinations.values.forEach { destination ->
                             with(destination) {
                                 when (this) {

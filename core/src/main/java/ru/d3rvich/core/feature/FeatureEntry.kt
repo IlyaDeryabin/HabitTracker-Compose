@@ -1,8 +1,12 @@
 package ru.d3rvich.core.feature
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.*
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 
 typealias Destinations = Map<Class<out FeatureEntry>, @JvmSuppressWildcards FeatureEntry>
 
@@ -20,8 +24,22 @@ interface FeatureEntry {
 }
 
 interface ComposableFeatureEntry : FeatureEntry {
+    val navAnimationSpec: (NavAnimationSpec.(Destinations) -> Unit)?
+        get() = null
+
     fun NavGraphBuilder.composable(navController: NavHostController, destinations: Destinations) {
-        composable(featureRoute, arguments, deepLinks) { backStackEntry ->
+        val animationSpec: NavAnimationSpec? = navAnimationSpec?.let {
+            NavAnimationSpec().apply { it(destinations) }
+        }
+        @OptIn(ExperimentalAnimationApi::class)
+        composable(route = featureRoute,
+            arguments = arguments,
+            deepLinks = deepLinks,
+            enterTransition = animationSpec?.enterTransition,
+            exitTransition = animationSpec?.exitTransition,
+            popEnterTransition = animationSpec?.popEnterTransition,
+            popExitTransition = animationSpec?.popExitTransition
+        ) { backStackEntry ->
             Composable(navController = navController,
                 destinations = destinations,
                 backStackEntry = backStackEntry)
@@ -34,6 +52,29 @@ interface ComposableFeatureEntry : FeatureEntry {
         destinations: Destinations,
         backStackEntry: NavBackStackEntry,
     )
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+class NavAnimationSpec {
+    var enterTransition: (AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition?)? = null
+        set(value) {
+            field = value
+            if (popEnterTransition == null) {
+                popEnterTransition = value
+            }
+        }
+
+    var exitTransition: (AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?)? = null
+        set(value) {
+            field = value
+            if (popExitTransition == null) {
+                popExitTransition = value
+            }
+        }
+
+    var popEnterTransition: (AnimatedContentScope<NavBackStackEntry>.() -> EnterTransition?)? = null
+
+    var popExitTransition: (AnimatedContentScope<NavBackStackEntry>.() -> ExitTransition?)? = null
 }
 
 interface AggregateFeatureEntry : FeatureEntry {

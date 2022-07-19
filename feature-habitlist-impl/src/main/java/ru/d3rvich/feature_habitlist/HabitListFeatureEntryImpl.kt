@@ -24,13 +24,15 @@ internal class HabitListFeatureEntryImpl @Inject constructor() : HabitListFeatur
         backStackEntry: NavBackStackEntry,
     ) {
         val habitEditorEntry = destinations.find<HabitEditorFeatureEntry>()
-        HabitListScreen(navigateToHabitCreator = {
-            habitEditorEntry.habitCreatorDestination().also {
-                navController.navigate(it)
-            }
-        }, navigateToHabitEditor = { habitId ->
-            habitEditorEntry.habitEditorDestination(habitId = habitId).also {
-                navController.navigate(it)
+        HabitListScreen(navigateToHabitEditor = { habitId ->
+            if (habitId == null) {
+                habitEditorEntry.habitCreatorDestination().also {
+                    navController.navigate(it)
+                }
+            } else {
+                habitEditorEntry.habitEditorDestination(habitId = habitId).also {
+                    navController.navigate(it)
+                }
             }
         }, navigateToSettings = {
             destinations.find<SettingsFeatureEntry>().destination().also {

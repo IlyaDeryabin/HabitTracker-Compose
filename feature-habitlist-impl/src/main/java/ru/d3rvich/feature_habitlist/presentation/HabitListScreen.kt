@@ -29,8 +29,7 @@ import ru.d3rvich.feature_habitlist.presentation.views.RemoveHabitAlertDialog
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun HabitListScreen(
-    navigateToHabitCreator: () -> Unit,
-    navigateToHabitEditor: (String) -> Unit,
+    navigateToHabitEditor: (String?) -> Unit,
     navigateToSettings: () -> Unit,
 ) {
     val viewModel: HabitListViewModel = hiltViewModel()
@@ -86,7 +85,7 @@ internal fun HabitListScreen(
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitListAction.NavigateToHabitCreator -> {
-                        navigateToHabitCreator()
+                        navigateToHabitEditor(null)
                     }
                     is HabitListAction.NavigateToHabitEditor -> {
                         navigateToHabitEditor(action.habitId)
