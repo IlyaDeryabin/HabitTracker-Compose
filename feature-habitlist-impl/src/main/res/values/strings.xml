@@ -1,0 +1,13 @@
+<resources>
+    <string name="good">Good</string>
+    <string name="bad">Bad</string>
+    <string name="empty_list">Empty list</string>
+    <string name="filter_label">Filter and sorting</string>
+    <string name="delete_habit">Remove habit?</string>
+    <string name="remove_message">This action can\'t be cancel.</string>
+    <string name="my_habits">My habits</string>
+    <string name="add_habit">Add habit</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="open_drawer">Open drawer</string>
+</resources>

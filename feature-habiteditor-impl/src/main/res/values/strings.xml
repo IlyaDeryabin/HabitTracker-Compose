@@ -1,0 +1,20 @@
+<resources>
+    <string name="fill_all_fields">Please, fill all fields.</string>
+    <string name="some">Somebody once told me the world is gonna roll me</string>
+    <string name="save_habit">Save habit</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="habit_type">Habit type</string>
+    <string name="habit_priority">Habit priority</string>
+    <string name="times">times</string>
+    <string name="days">days</string>
+    <string name="high">High</string>
+    <string name="medium">Medium</string>
+    <string name="low">Low</string>
+    <string name="amount">Amount</string>
+    <string name="frequency">Frequency</string>
+    <string name="good">Good</string>
+    <string name="bad">Bad</string>
+    <string name="habit_editor">Habit editor</string>
+    <string name="pop_back">Pop back</string>
+</resources>
