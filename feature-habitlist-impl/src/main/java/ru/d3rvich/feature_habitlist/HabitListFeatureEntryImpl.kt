@@ -2,7 +2,6 @@ package ru.d3rvich.feature_habitlist
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import ru.d3rvich.core.feature.Destinations
 import ru.d3rvich.core.feature.find
@@ -18,7 +17,7 @@ import javax.inject.Inject
 internal class HabitListFeatureEntryImpl @Inject constructor() : HabitListFeatureEntry() {
 
     @Composable
-    override fun NavGraphBuilder.Composable(
+    override fun Composable(
         navController: NavHostController,
         destinations: Destinations,
         backStackEntry: NavBackStackEntry,

@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import ru.d3rvich.core.feature.Destinations
 import ru.d3rvich.core.feature.NavAnimationSpec
@@ -20,7 +19,7 @@ import javax.inject.Inject
 internal class HabitEditorFeatureEntryImpl @Inject constructor() : HabitEditorFeatureEntry() {
 
     @Composable
-    override fun NavGraphBuilder.Composable(
+    override fun Composable(
         navController: NavHostController,
         destinations: Destinations,
         backStackEntry: NavBackStackEntry,
