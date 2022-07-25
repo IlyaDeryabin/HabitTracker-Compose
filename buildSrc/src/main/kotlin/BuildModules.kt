@@ -10,9 +10,9 @@ object BuildModules {
 
     object Features {
         const val HABIT_LIST_API = ":feature-habitlist-api"
-        const val HABIT_LIST = ":feature-habitlist-impl"
+        const val HABIT_LIST_IMPL = ":feature-habitlist-impl"
         const val HABIT_EDITOR_API = ":feature-habiteditor-api"
-        const val HABIT_EDITOR = ":feature-habiteditor-impl"
+        const val HABIT_EDITOR_IMPL = ":feature-habiteditor-impl"
         const val SETTINGS_API = ":feature-settings-api"
         const val SETTINGS_IMPL = ":feature-settings-impl"
     }

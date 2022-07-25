@@ -24,10 +24,10 @@ import ru.d3rvich.feature_habitlist.domain.entities.HabitType
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun HabitListItem(
-    modifier: Modifier = Modifier,
     habit: HabitEntity,
     onHabitClicked: (String) -> Unit,
     onHabitLongClicked: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier

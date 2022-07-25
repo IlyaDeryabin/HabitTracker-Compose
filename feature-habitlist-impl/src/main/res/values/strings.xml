@@ -10,4 +10,8 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="open_drawer">Open drawer</string>
+    <string name="by_creation_time">By creation time</string>
+    <string name="by_priority">By priority</string>
+    <string name="by_title">By title</string>
+    <string name="no_sorting">No sorting</string>
 </resources>

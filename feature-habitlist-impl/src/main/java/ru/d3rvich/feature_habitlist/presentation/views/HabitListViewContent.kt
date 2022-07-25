@@ -1,5 +1,6 @@
 package ru.d3rvich.feature_habitlist.presentation.views
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,11 +24,11 @@ import ru.d3rvich.feature_habitlist.domain.entities.HabitType
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun HabitListViewContent(
-    modifier: Modifier = Modifier,
     isLoading: Boolean,
     habits: List<HabitEntity>?,
     onHabitClicked: (String) -> Unit,
     onHabitLongClicked: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val tabs = listOf(R.string.good, R.string.bad).map { stringResource(id = it) }
     val pagerState = rememberPagerState()
@@ -78,15 +79,19 @@ internal fun HabitListViewContent(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun HabitList(
-    modifier: Modifier = Modifier,
     habits: List<HabitEntity>,
     onHabitClicked: (String) -> Unit,
     onHabitLongClicked: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     if (habits.isEmpty()) {
-        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(modifier = modifier
+            .fillMaxSize()
+            .padding(top = 40.dp),
+            contentAlignment = Alignment.TopCenter) {
             Text(text = stringResource(id = R.string.empty_list))
         }
     } else {
@@ -98,7 +103,8 @@ private fun HabitList(
             items(habits, key = { it.id }) {
                 HabitListItem(habit = it,
                     onHabitClicked = onHabitClicked,
-                    onHabitLongClicked = onHabitLongClicked)
+                    onHabitLongClicked = onHabitLongClicked,
+                    modifier = Modifier.animateItemPlacement())
             }
             item {
                 Spacer(modifier = Modifier.height(80.dp))
@@ -135,7 +141,10 @@ private fun HabitListViewContentPreview() {
         )
         habits.add(habit)
     }
-    HabitListViewContent(habits = habits, onHabitClicked = {}, isLoading = false) {}
+    HabitListViewContent(habits = habits,
+        onHabitClicked = {},
+        isLoading = false,
+        onHabitLongClicked = {})
 }
 
 @Preview(showBackground = true)

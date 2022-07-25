@@ -37,7 +37,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = freeCompilerArgs + "-opt-in=kotlin.RequiresOptIn"
     }
     buildFeatures {
         compose = true
@@ -56,9 +55,9 @@ dependencies {
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.API))
     implementation(project(BuildModules.Features.HABIT_LIST_API))
-    implementation(project(BuildModules.Features.HABIT_LIST))
+    implementation(project(BuildModules.Features.HABIT_LIST_IMPL))
     implementation(project(BuildModules.Features.HABIT_EDITOR_API))
-    implementation(project(BuildModules.Features.HABIT_EDITOR))
+    implementation(project(BuildModules.Features.HABIT_EDITOR_IMPL))
     implementation(project(BuildModules.Features.SETTINGS_API))
     implementation(project(BuildModules.Features.SETTINGS_IMPL))
 

@@ -47,7 +47,7 @@ interface ComposableFeatureEntry : FeatureEntry {
     }
 
     @Composable
-    fun NavGraphBuilder.Composable(
+    fun Composable(
         navController: NavHostController,
         destinations: Destinations,
         backStackEntry: NavBackStackEntry,
