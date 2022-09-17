@@ -43,7 +43,9 @@ object Dependencies {
     const val HILT = "com.google.dagger:hilt-android:${DependenciesVersions.HILT}"
     const val COROUTINES =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${DependenciesVersions.COROUTINES}"
-    const val CORE_KTX = "androidx.core:core-ktx:1.8.0"
+    const val CORE_KTX = "androidx.core:core-ktx:1.9.0"
     const val VIEW_MODEL_KTX =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${DependenciesVersions.VIEW_MODEL_KTX}"
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:${DependenciesVersions.LIFECYCLE_KTX}"
+    const val LIFECYCLE_COMPOSE =
+        "androidx.lifecycle:lifecycle-runtime-compose:${DependenciesVersions.LIFECYCLE_KTX}"
 }

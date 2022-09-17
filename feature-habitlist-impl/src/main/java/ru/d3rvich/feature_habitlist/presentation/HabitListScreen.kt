@@ -10,10 +10,14 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.launch
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import ru.d3rvich.feature_habitlist.R
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListAction
 import ru.d3rvich.feature_habitlist.presentation.model.HabitListEvent
@@ -24,14 +28,14 @@ import ru.d3rvich.feature_habitlist.presentation.views.RemoveHabitAlertDialog
 /**
  * Created by Ilya Deryabin at 26.06.2022
  */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun HabitListScreen(
     navigateToHabitEditor: (String?) -> Unit,
     navigateToSettings: () -> Unit,
 ) {
     val viewModel: HabitListViewModel = hiltViewModel()
-    val viewState by viewModel.uiState.collectAsState()
+    val viewState by viewModel.uiState.collectAsStateWithLifecycle()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState()
     val sheetPeekHeight = 60.dp
     BottomSheetScaffold(
@@ -80,8 +84,9 @@ internal fun HabitListScreen(
         viewModel.obtainEvent(HabitListEvent.OnDeleteDialogResult(false))
     })
 
+    val lifecycle = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
-        launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitListAction.NavigateToHabitCreator -> {

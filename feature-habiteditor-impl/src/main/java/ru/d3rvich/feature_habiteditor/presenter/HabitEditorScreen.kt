@@ -10,12 +10,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.launch
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import ru.d3rvich.feature_habiteditor.R
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorAction
 import ru.d3rvich.feature_habiteditor.presenter.model.HabitEditorEvent
@@ -26,6 +29,7 @@ import ru.d3rvich.feature_habiteditor.presenter.views.HabitEditorViewLoading
 /**
  * Created by Ilya Deryabin at 29.06.2022
  */
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 internal fun HabitEditorScreen(popBackStack: () -> Unit) {
     val viewModel: HabitEditorViewModel = hiltViewModel()
@@ -40,7 +44,7 @@ internal fun HabitEditorScreen(popBackStack: () -> Unit) {
         }, backgroundColor = MaterialTheme.colors.surface)
     }) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            when (val state = viewModel.uiState.collectAsState().value) {
+            when (val state = viewModel.uiState.collectAsStateWithLifecycle().value) {
                 is HabitEditorViewState.Creator -> {
                     HabitEditorViewEditor(isUploading = state.isUploading) { baseHabit ->
                         viewModel.obtainEvent(HabitEditorEvent.OnSaveButtonClicked(baseHabit))
@@ -60,8 +64,9 @@ internal fun HabitEditorScreen(popBackStack: () -> Unit) {
     }
 
     val context = LocalContext.current
+    val lifecycle = LocalLifecycleOwner.current
     LaunchedEffect(Unit) {
-        launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.uiAction.collect { action ->
                 when (action) {
                     HabitEditorAction.PopBackStack -> {

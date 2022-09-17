@@ -68,6 +68,7 @@ dependencies {
     // KTX
     implementation(Dependencies.CORE_KTX)
     implementation(Dependencies.VIEW_MODEL_KTX)
+    implementation(Dependencies.LIFECYCLE_COMPOSE)
 
     implementation(Dependencies.APPCOMPAT)
     implementation(Dependencies.MATERIAL)

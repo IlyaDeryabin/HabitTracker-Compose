@@ -6,9 +6,9 @@
 object BuildAndroidConfig {
     const val APPLICATION_ID = "ru.d3rvich.habittracker_compose"
 
-    const val COMPILE_SDK_VERSION = 32
+    const val COMPILE_SDK_VERSION = 33
     const val MIN_SDK_VERSION = 21
-    const val TARGET_SDK_VERSION = 32
+    const val TARGET_SDK_VERSION = 33
 
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0"
